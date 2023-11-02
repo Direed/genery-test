@@ -3,9 +3,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Swiper from 'swiper';
 // import 'swiper/css';
+import {motion, useViewportScroll, useTransform, useScroll} from "framer-motion";
+
 
 
 
@@ -15,6 +17,32 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [mediaQuery, setMediaQuery] = useState(0);
   const [mediaQuery750, setMediaQuery750] = useState(0);
+  const refAdvantages = useRef(null)
+  const refSpaceSection = useRef(null)
+  const refSpaceImg = useRef(null)
+  const refSpaceHeader = useRef(null)
+  const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
+    target: refAdvantages,
+    offset: ["start end", "end end"]
+  })
+  const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
+    target: refSpaceSection,
+    offset: ["start end", "end end"]
+  })
+  const { scrollYProgress: scrollYProgressSpaceImg } = useScroll({
+    target: refSpaceImg,
+    offset: ["start end", "end end"]
+  })
+  const { scrollYProgress: scrollYProgressSpaceHeader } = useScroll({
+    target: refSpaceHeader,
+    offset: ["start end", "end end"]
+  })
+
+  const scaleAdvantages = useTransform(scrollYProgressAdvantages, [2, 0], [0, 2]);
+  const scaleSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 1], [1, 1]);
+  const scaleSpaceImg = useTransform(scrollYProgressSpaceImg, [2, 0], [0, 1]);
+  const scaleSpaceHeader = useTransform(scrollYProgressSpaceImg, [2, 0], [0, 1]);
+
 
   let flexRow1 = 0
   let flexRow2 = 1
@@ -212,12 +240,8 @@ export default function Home() {
       imgBody.style.height = `calc(100% - ${cofPaddingValue + cofPaddingValue}px)`
 
       window.addEventListener("scroll", function (event) {
-        console.log('scroll')
-        console.log(allImages, 'allImages')
-        console.log(allTextElements, 'allTextElements')
 
         let skrillValue = window.scrollY
-        console.log(skrillValue, 'skrillValue')
 
         let vwStart = +distanceToBlock + +cofPaddingValue
         let vw1 = window.scrollY - vwStart
@@ -618,6 +642,30 @@ export default function Home() {
   }, [mediaQuery, mediaQuery750])
 
 
+  // function animationAfterAdvantages() {
+  //   const advantagesSection = document.querySelector(".advantages-sec .container");
+  //   console.log(advantagesSection.getBoundingClientRect().top + window.scrollY + advantagesSection.scrollHeight, 'advantagesSection.scrollHeight')
+  //   let scrollPosition = document.documentElement.scrollTop;
+  //   console.log(scrollPosition, 'scrollPosition')
+  //   const generationSection = document.querySelector(".generation-sec__container");
+  //
+  //   console.log(generationSection.style, 'generationSection')
+  //
+  //   if(scrollPosition > advantagesSection.getBoundingClientRect().top + window.scrollY + advantagesSection.scrollHeight - 380) {
+  //     generationSection.style.transform = `scale(${(generationSection.getBoundingClientRect().width / generationSection.offsetWidth) - 0.1})`
+  //   }
+  //
+  // }
+  //
+  //
+  // useEffect(() => {
+  //
+  //   window.addEventListener("scroll", animationAfterAdvantages)
+  //
+  //   // return window.removeEventListener('scroll', animationAfterAdvantages)
+  // }, [])
+
+
 
   return (
     <>
@@ -904,7 +952,13 @@ export default function Home() {
           </section>
 
           <section className="generation-sec">
-            <div className="generation-sec__container">
+            <motion.div
+                ref={refAdvantages}
+                className="generation-sec__container"
+                style={{
+                  scale: scaleAdvantages
+                }}
+            >
               {/*<div class="generation-sec__img-wrapper">*/}
               {/*    <picture class="generation-sec__img">*/}
               {/*        <source media="(max-width: 600px)" srcset="/images/_src/gif/gif1.gif">*/}
@@ -914,19 +968,58 @@ export default function Home() {
               {/*    </picture>*/}
               {/*</div>*/}
 
-              <div className="generation-sec__video-wrapper">
-                <video className="generation-sec__video" playsInline muted autoPlay loop>
-                  <source src="/images/_src/gif/video_gif-pc.mp4" type="video/mp4"/>
-                    Ваш браузер не поддерживает воспроизведение видео.
-                </video>
-              </div>
-
-              {/*<div class="generation-sec__info">*/}
-              {/*    <p class="generation-sec__subtitle">Generation</p>*/}
-              {/*    <h2 class="page-title">If you can't find reference you can <i>generate</i> it</h2>*/}
+              {/*<div className="generation-sec__video-wrapper">*/}
+              {/*  <video className="generation-sec__video" playsInline muted autoPlay loop>*/}
+              {/*    <source src="/images/_src/gif/video_gif-pc.mp4" type="video/mp4"/>*/}
+              {/*      Ваш браузер не поддерживает воспроизведение видео.*/}
+              {/*  </video>*/}
               {/*</div>*/}
 
-            </div>
+              <div class="generation-sec__info">
+                  {/*<p class="generation-sec__subtitle">Generation</p>*/}
+                  <h2 class="page-title">If you can't find reference you can <i>generate</i> it</h2>
+              </div>
+
+            </motion.div>
+          </section>
+
+          <section className={"space-section"}>
+            <motion.div
+                ref={refSpaceSection}
+                className={"space-section-container"}
+                style={{
+                  scale: scaleSpaceSection
+                }}>
+              {/*<div class="generation-sec__img-wrapper">*/}
+              {/*    <picture class="generation-sec__img">*/}
+              {/*        <source media="(max-width: 600px)" srcset="/images/_src/gif/gif1.gif">*/}
+              {/*        <source media="(min-width: 601px) and (max-width: 1200px)" srcset="/images/_src/gif/gif1.gif">*/}
+              {/*        <source media="(min-width: 1201px)" srcset="/images/_src/gif/gif1.gif">*/}
+              {/*        <img src="/images/_src/gif/gif1.gif" alt="Адаптивное изображение">*/}
+              {/*    </picture>*/}
+              {/*</div>*/}
+
+              {/*<div className="generation-sec__video-wrapper">*/}
+              {/*  <video className="generation-sec__video" playsInline muted autoPlay loop>*/}
+              {/*    <source src="/images/_src/gif/video_gif-pc.mp4" type="video/mp4"/>*/}
+              {/*      Ваш браузер не поддерживает воспроизведение видео.*/}
+              {/*  </video>*/}
+              {/*</div>*/}
+
+              <div className={"space-section-images"}>
+                <motion.img
+                    ref={refSpaceHeader}
+                    style={{scale: scaleSpaceHeader}}
+                    src={"/images/_src/Barbar_1.svg"}
+                />
+                <motion.img
+                    ref={refSpaceImg}
+                    style={{scale: scaleSpaceImg}}
+                    src={"/images/_src/Space.svg"}
+                />
+              </div>
+
+            </motion.div>
           </section>
 
           <section className="interface-sec-2">
