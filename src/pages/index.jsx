@@ -1,16 +1,11 @@
 'use client'
 
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import {useEffect, useRef, useState} from "react";
 import Swiper from 'swiper';
 // import 'swiper/css';
 import {motion, useViewportScroll, useTransform, useScroll} from "framer-motion";
-
-
-
-
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -326,6 +321,7 @@ export default function Home() {
 
       function onMouseMove(event) {
         if (isDragging) {
+          console.log(event.clientX, 'event.clientX')
           var deltaX = event.clientX - startX;
           var newLeft = movableElement.offsetLeft + deltaX;
           movableElement.style.left = newLeft + "px";
@@ -342,7 +338,7 @@ export default function Home() {
           } else {
             activeElement.style.width = currentWidth + 'px';
             startX = event.clientX;
-            movableElement.style.left = newLeft + "px";
+            movableElement.style.left = currentWidth + "px";
           }
         }
       }
@@ -398,15 +394,13 @@ export default function Home() {
           var newLeft = movableElement.offsetLeft + deltaX;
           let currentWidth = startX - distanceFromLeftElement;
 
-
           if (currentWidth >= controlElementWidth - 40) {
             currentWidth = controlElementWidth - 50;
             movableElement.style.left = currentWidth - 2 + "px";
           } else if (currentWidth <= 30) {
-            currentWidth = 30;
             movableElement.style.left = 28 + "px";
           } else {
-            let currentProcent = newLeft / oneProcent
+            let currentProcent = newLeft / oneProcent / 4
             activeElement.style.width = currentProcent + '%';
             startX = event.touches[0].clientX;
             movableElement.style.left = newLeft + "px";
@@ -415,8 +409,6 @@ export default function Home() {
 
 
       });
-
-
 
       // document.addEventListener("touchend", function (event) {
       //     let leftSize = controlElement.style.left
@@ -448,23 +440,17 @@ export default function Home() {
     setMediaQuery750(mediaQuery750Value)
   }, [])
 
-
-
   useEffect(() => {
 
     //anim first screan
     firstScrean()
 
-
     //flex sec change
 
     flexFunction()
 
-
     //flext image current
     imageFlexChange()
-
-
 
     //fixed change image anim
 
@@ -475,10 +461,6 @@ export default function Home() {
       fixedChangeImage()
     }
 
-
-
-
-
     //filtr script
     if (mediaQuery.matches) {
       filtrScriptMob()
@@ -486,10 +468,6 @@ export default function Home() {
     else {
       filtrScript()
     }
-
-
-
-
 
     //sliders
     var swiper1 = new Swiper(".swiper-img", {
@@ -568,6 +546,7 @@ export default function Home() {
         }
       }
     });
+
     var swiper2 = new Swiper(".swiper-img", {
       spaceBetween: 0,
       navigation: {
@@ -582,7 +561,6 @@ export default function Home() {
       breakpoints: {
         250: {
           simulateTouch: false
-
         },
         750: {
 
@@ -611,10 +589,6 @@ export default function Home() {
       swiper3.controller.control = swiper2;
       swiper2.controller.control = swiper3;
     }
-    else {
-    }
-
-
 
     if (mediaQuery.matches) {
       var swipe4 = new Swiper(".swiper-price", {
@@ -626,19 +600,8 @@ export default function Home() {
         spaceBetween: 32,
       });
     }
-    else if (mediaQuery750.matches) {
-
-    }
-    else {
-
-    }
-
-
     //mob meny
     mobMeny()
-
-
-
   }, [mediaQuery, mediaQuery750])
 
 
