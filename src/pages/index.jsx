@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import {useEffect, useRef, useState} from "react";
 
-import {motion, useViewportScroll, useTransform, useScroll} from "framer-motion";
+import { motion, circOut, useTransform, useScroll, easeInOut, easeIn } from "framer-motion";
 import Gallery from "@/components/gallery";
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,7 +14,10 @@ export default function Home() {
   const [mediaQuery750, setMediaQuery750] = useState(0);
   const refAdvantages = useRef(null)
   const refSpaceSection = useRef(null)
-  const refSpaceSection2 = useRef(null)
+  const refScaleSpaceSection = useRef(null)
+  const refScaleGalleryGenerationSection = useRef(null)
+  const refOpacityEasilySwitchSection = useRef(null)
+  const refOpacityLightenDropdownSection = useRef(null)
   const refSpaceImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
@@ -26,10 +29,27 @@ export default function Home() {
     offset: ["start end", "end end"]
   })
 
-  const { scrollYProgress: scrollYProgressSpaceSection2 } = useScroll({
-    target: refSpaceSection2,
+  const { scrollYProgress: scrollYProgressScaleSpaceSection } = useScroll({
+    target: refScaleSpaceSection,
     offset: ["start end", "end end"]
   })
+
+
+  const { scrollYProgress: scrollYProgressScaleGalleryGenerationSection } = useScroll({
+    target: refScaleGalleryGenerationSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressOpacityEasilySwitchSection } = useScroll({
+    target: refOpacityEasilySwitchSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressOpacityLightenDropdownSection } = useScroll({
+    target: refOpacityLightenDropdownSection,
+    offset: ["start end", "end end"]
+  })
+
   const { scrollYProgress: scrollYProgressSpaceImg } = useScroll({
     target: refSpaceImg,
     offset: ["start end", "end end"]
@@ -56,6 +76,10 @@ export default function Home() {
     }
   })
 
+  scrollYProgressScaleGalleryGenerationSection.on('change', () => {
+
+  })
+
 
   //TODO: logic for scaling container to left top section
   // scrollYProgressSpaceSection.on('change', (value) => {
@@ -77,14 +101,60 @@ export default function Home() {
   // })
 
   const scaleAdvantages = useTransform(scrollYProgressAdvantages, [2, 0], [0, 2]);
-  const scaleSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], [1, 4], {});
-  const transformXSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], ['0%', '150%']);
-  const transformYSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], [0, 200]);
-  const scaleSpaceImg = useTransform(scrollYProgressSpaceImg, [2, 0], [0, 1]);
-  const scaleSpaceHeader = useTransform(scrollYProgressSpaceImg, [1, 0], [0.9, 4]);
-  const transformYSpaceHeader = useTransform(scrollYProgressSpaceImg, [1.1, 0], ['350%', '0%']);
+
+  const widthSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], ['100%', '600%'],{
+    ease: circOut
+  });
+  // const filterSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], [0, 40]);
+  // const transformXSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], ['0%', '150%']);
+
+  const transformXSpaceSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], ['4%', '-10%'], {
+    ease: circOut
+  });
+  const transformYSpaceSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], ['33%', '0%'], {
+    ease: circOut
+  });
+  const scaleSpaceSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], [0.6, 1], {
+    ease: circOut
+  });
 
 
+
+
+  const transformYSpaceHeaderSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], ['62vh', '-10vh'], {
+    ease: circOut
+  });
+  const scaleSpaceHeaderSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], [0.95, 3], {
+    ease: circOut
+  });
+
+  const transformYSpaceButtonsSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], ['-10vh', '50vh'], {
+    ease: circOut
+  });
+  const scaleSpaceButtonsSection = useTransform(scrollYProgressScaleSpaceSection, [1, 0], [1, 3], {
+    ease: circOut
+  });
+
+  // GalleryGeneration
+  const widthSpaceGalleryGenerationSection = useTransform(scrollYProgressScaleGalleryGenerationSection, [1, 0], ['365%', '100%'],{
+    ease: circOut
+  });
+
+  const opacityEasilySwitchSection = useTransform(scrollYProgressOpacityEasilySwitchSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  // lighten dropdown
+  const opacityLightenDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+  const widthLightenDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], ['50%', '100%'],{
+    ease: circOut
+  });
+
+  scrollYProgressSpaceSection.on('change', value => {
+    refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
+  })
 
   let flexRow1 = 0
   let flexRow2 = 1
@@ -589,76 +659,76 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="app">
-        <header className="header">
-          <div className="container">
-            <a href="" className="header__logo">
-              <img src="/images/_src/logo.svg" alt="" className="header__logo-img"/>
-            </a>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-element">
-                  <a href="" className="header__nav-link nav-link">
-                    <span className="nav-link__text nav-link__active">Gallery</span>
-                    <span className="nav-link__text nav-link__def">Gallery</span>
-                    <span className="nav-link__text nav-link__hidden">Gallery</span>
-                  </a>
-                </li>
+        {/*<header className="header">*/}
+        {/*  <div className="container">*/}
+        {/*    <a href="" className="header__logo">*/}
+        {/*      <img src="/images/_src/logo.svg" alt="" className="header__logo-img"/>*/}
+        {/*    </a>*/}
+        {/*    <nav className="header__nav">*/}
+        {/*      <ul className="header__nav-list">*/}
+        {/*        <li className="header__nav-element">*/}
+        {/*          <a href="" className="header__nav-link nav-link">*/}
+        {/*            <span className="nav-link__text nav-link__active">Gallery</span>*/}
+        {/*            <span className="nav-link__text nav-link__def">Gallery</span>*/}
+        {/*            <span className="nav-link__text nav-link__hidden">Gallery</span>*/}
+        {/*          </a>*/}
+        {/*        </li>*/}
 
-                <li className="header__nav-element">
-                  <a href="" className="header__nav-link nav-link">
-                    <span className="nav-link__text nav-link__active">Generation</span>
-                    <span className="nav-link__text nav-link__def">Generation</span>
-                    <span className="nav-link__text nav-link__hidden">Generation</span>
-                  </a>
-                </li>
+        {/*        <li className="header__nav-element">*/}
+        {/*          <a href="" className="header__nav-link nav-link">*/}
+        {/*            <span className="nav-link__text nav-link__active">Generation</span>*/}
+        {/*            <span className="nav-link__text nav-link__def">Generation</span>*/}
+        {/*            <span className="nav-link__text nav-link__hidden">Generation</span>*/}
+        {/*          </a>*/}
+        {/*        </li>*/}
 
-                <li className="header__nav-element">
-                  <a href="" className="header__nav-link nav-link">
-                    <span className="nav-link__text nav-link__active">Pricing</span>
-                    <span className="nav-link__text nav-link__def">Pricing</span>
-                    <span className="nav-link__text nav-link__hidden">Pricing</span>
-                  </a>
-                </li>
+        {/*        <li className="header__nav-element">*/}
+        {/*          <a href="" className="header__nav-link nav-link">*/}
+        {/*            <span className="nav-link__text nav-link__active">Pricing</span>*/}
+        {/*            <span className="nav-link__text nav-link__def">Pricing</span>*/}
+        {/*            <span className="nav-link__text nav-link__hidden">Pricing</span>*/}
+        {/*          </a>*/}
+        {/*        </li>*/}
 
-                <li className="header__nav-element">
-                  <a href="" className="header__nav-link nav-link">
-                    <span className="nav-link__text nav-link__active">Blog</span>
-                    <span className="nav-link__text nav-link__def">Blog</span>
-                    <span className="nav-link__text nav-link__hidden">Blog</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <div className="header__user-container">
-              <a href="" className="header__user-login">Log in</a>
-              <button className="btnV1">
-                <div className="nav-link">
-                  <span className="nav-link__text nav-link__active">Sign up</span>
-                  <span className="nav-link__text nav-link__def">Sign up</span>
-                  <span className="nav-link__text nav-link__hidden">Sign up</span>
-                </div>
-              </button>
-            </div>
+        {/*        <li className="header__nav-element">*/}
+        {/*          <a href="" className="header__nav-link nav-link">*/}
+        {/*            <span className="nav-link__text nav-link__active">Blog</span>*/}
+        {/*            <span className="nav-link__text nav-link__def">Blog</span>*/}
+        {/*            <span className="nav-link__text nav-link__hidden">Blog</span>*/}
+        {/*          </a>*/}
+        {/*        </li>*/}
+        {/*      </ul>*/}
+        {/*    </nav>*/}
+        {/*    <div className="header__user-container">*/}
+        {/*      <a href="" className="header__user-login">Log in</a>*/}
+        {/*      <button className="btnV1">*/}
+        {/*        <div className="nav-link">*/}
+        {/*          <span className="nav-link__text nav-link__active">Sign up</span>*/}
+        {/*          <span className="nav-link__text nav-link__def">Sign up</span>*/}
+        {/*          <span className="nav-link__text nav-link__hidden">Sign up</span>*/}
+        {/*        </div>*/}
+        {/*      </button>*/}
+        {/*    </div>*/}
 
-            <div className="header__burger">
-              <svg className="header__burger-def" width="29" height="32" viewBox="0 0 29 32" fill="none"
-                   xmlns="http://www.w3.org/2000/svg">
-                <rect y="32" width="32" height="3" rx="1.5" transform="rotate(-90 0 32)" fill="white"/>
-                <rect x="13" y="32" width="16" height="3" rx="1.5" transform="rotate(-90 13 32)" fill="white"/>
-                <rect x="26" y="32" width="32" height="3" rx="1.5" transform="rotate(-90 26 32)" fill="white"/>
-              </svg>
-              <svg className="header__burger-activ" width="29" height="32" viewBox="0 0 29 32" fill="none"
-                   xmlns="http://www.w3.org/2000/svg">
-                <rect x="25" y="28.375" width="32" height="3" rx="1.5" transform="rotate(-135 25 28.375)"
-                      fill="white"/>
-                <rect x="13" y="17" width="1" height="3" rx="0.5" transform="rotate(-90 13 17)" fill="white"/>
-                <rect x="2" y="26.25" width="32" height="3" rx="1.5" transform="rotate(-45 2 26.25)"
-                      fill="white"/>
-              </svg>
+        {/*    <div className="header__burger">*/}
+        {/*      <svg className="header__burger-def" width="29" height="32" viewBox="0 0 29 32" fill="none"*/}
+        {/*           xmlns="http://www.w3.org/2000/svg">*/}
+        {/*        <rect y="32" width="32" height="3" rx="1.5" transform="rotate(-90 0 32)" fill="white"/>*/}
+        {/*        <rect x="13" y="32" width="16" height="3" rx="1.5" transform="rotate(-90 13 32)" fill="white"/>*/}
+        {/*        <rect x="26" y="32" width="32" height="3" rx="1.5" transform="rotate(-90 26 32)" fill="white"/>*/}
+        {/*      </svg>*/}
+        {/*      <svg className="header__burger-activ" width="29" height="32" viewBox="0 0 29 32" fill="none"*/}
+        {/*           xmlns="http://www.w3.org/2000/svg">*/}
+        {/*        <rect x="25" y="28.375" width="32" height="3" rx="1.5" transform="rotate(-135 25 28.375)"*/}
+        {/*              fill="white"/>*/}
+        {/*        <rect x="13" y="17" width="1" height="3" rx="0.5" transform="rotate(-90 13 17)" fill="white"/>*/}
+        {/*        <rect x="2" y="26.25" width="32" height="3" rx="1.5" transform="rotate(-45 2 26.25)"*/}
+        {/*              fill="white"/>*/}
+        {/*      </svg>*/}
 
-            </div>
-          </div>
-        </header>
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</header>*/}
 
         <div className="mob-meny">
           <div className="container">
@@ -897,7 +967,7 @@ export default function Home() {
             {/*    ref={refSpaceSection}*/}
             {/*    className={"space-section-container"}*/}
             {/*    style={{*/}
-            {/*      scale: scaleSpaceSection*/}
+            {/*      scale: widthSpaceSection*/}
             {/*    }}>*/}
             {/*  <div className={"space-section-images"}>*/}
             {/*    <motion.img*/}
@@ -914,41 +984,87 @@ export default function Home() {
             {/*</motion.div>*/}
           </section>
 
-          <section className={"space-section"}>
+          <section style={{ height: '1600vh', transform: 'translateY(-100vh)'}} className={"space-section"}>
+
+            <div style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
+            <div style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
+            <div style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
+            <div style={{ height: '15vh', top: '120vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
+            <div style={{ height: '15vh', top: '140vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
             {/*<div><div>test</div></div>*/}
-            <div style={{ height: '150vh', position: 'absolute', width: '100%'}} ref={refSpaceSection}>
+            <div style={{ position: 'sticky', top: '40vh', height: '150vh', width: '100%'}}>
               <motion.div
-                  // ref={refSpaceSection}
-                  className={"space-section-container"}
+                style={{
+                  width: widthLightenDropdownSection,
+                }}
+              >
+                <motion.div
                   style={{
-                    filter: `blur(${scaleSpaceSection})`,
-                    // translateX: transformXSpaceSection,
-                    // translateY: transformYSpaceSection,
-                    scale: scaleSpaceSection
-                  }}>
-                {/*<motion.div*/}
-                {/*    // ref={refSpaceSection}*/}
-                {/*    className={"space-section-container"}*/}
-                {/*    style={{*/}
-                {/*      translateX: transformXSpaceSection2,*/}
-                {/*      translateY: transformYSpaceSection2,*/}
-                {/*      scale: scaleSpaceSection*/}
-                {/*    }}>*/}
-                <div className={"space-section-images"}>
-                  <motion.img
+                    width: widthSpaceGalleryGenerationSection,
+                  }}
+                >
+                  <motion.div
+                    style={{
+                      scale: scaleSpaceHeaderSection,
+                      translateY: transformYSpaceHeaderSection
+                    }}
+                    // style={{scale: scaleSpaceHeader}}
+                  >
+                    <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "5%" }}>
+
+                      <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                    </motion.div>
+
+
+                    <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "50%", left: "20%" }}>
+                      <img
+                        style={{ width: '100%'}}
+                        src={"/images/_src/Space_lighten_dropdown.png"}
+                      />
+                    </motion.div>
+                    <img
+                      style={{ width: '100%'}}
                       ref={refSpaceHeader}
-                      style={{scale: scaleSpaceHeader, translateY: transformYSpaceHeader}}
                       src={"/images/_src/Barbar_1.svg"}
-                  />
-                  <motion.img
-                      ref={refSpaceImg}
-                      style={{scale: scaleSpaceImg}}
-                      src={"/images/_src/Space.svg"}
-                  />
-                </div>
-                <div style={{opacity: 0, position: "absolute", top: "30%", left: "0px" }}>
-                  <h2 >easily switch from <i>gallery</i> to <i>generation</i></h2>
-                </div>
+                    />
+                  </motion.div>
+
+                  <motion.div
+                      // ref={refSpaceSection}
+                      className={"space-section-container"}
+                      style={{
+                        scale: scaleSpaceSection,
+                        translateX: transformXSpaceSection,
+                        translateY: transformYSpaceSection,
+                      }}>
+                    <div className={"space-section-images"}>
+
+                      <motion.div
+                        style={{
+                          width: widthSpaceSection,
+                        }}
+                      >
+                        <img
+                            style={{ width: '100%'}}
+                            ref={refSpaceImg}
+                            src={"/images/_src/Space.svg"}
+                        />
+                      </motion.div>
+                    </div>
+
+                    <motion.div
+                      style={{
+                        scale: scaleSpaceButtonsSection,
+                        translateY: transformYSpaceButtonsSection
+                      }}
+                    >
+                      <img
+                        style={{ width: '100%'}}
+                        src={"/images/_src/Space_buttons.png"}
+                      />
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
               </motion.div>
             </div>
           </section>

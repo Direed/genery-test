@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .front-sec {
     width: 100%;
     min-height: 200vh;
@@ -715,8 +719,6 @@
 
 .space-section-container {
     width: 100%;
-    top: 0px;
-    position: sticky;
 }
 
 .space-section-images {
