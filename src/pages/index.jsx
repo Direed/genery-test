@@ -14,6 +14,7 @@ export default function Home() {
   const [mediaQuery750, setMediaQuery750] = useState(0);
   const refAdvantages = useRef(null)
   const refSpaceSection = useRef(null)
+  const refSpaceSection2 = useRef(null)
   const refSpaceImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
@@ -24,6 +25,11 @@ export default function Home() {
     target: refSpaceSection,
     offset: ["start end", "end end"]
   })
+
+  const { scrollYProgress: scrollYProgressSpaceSection2 } = useScroll({
+    target: refSpaceSection2,
+    offset: ["start end", "end end"]
+  })
   const { scrollYProgress: scrollYProgressSpaceImg } = useScroll({
     target: refSpaceImg,
     offset: ["start end", "end end"]
@@ -32,11 +38,52 @@ export default function Home() {
     target: refSpaceHeader,
     offset: ["start end", "end end"]
   })
+  scrollYProgressAdvantages.on('change', (value) => {
+
+    console.log('value', value)
+    if (value === 1) {
+
+      const generationSectionImages = document.querySelector(".generation-sec");
+      generationSectionImages.style.opacity = 0
+      const spaceSectionImages = document.querySelector(".space-section");
+      spaceSectionImages.style.opacity = 1
+    } else {
+
+      const generationSectionImages = document.querySelector(".generation-sec");
+      generationSectionImages.style.opacity = 1
+      const spaceSectionImages = document.querySelector(".space-section");
+      spaceSectionImages.style.opacity = 0
+    }
+  })
+
+
+  //TODO: logic for scaling container to left top section
+  // scrollYProgressSpaceSection.on('change', (value) => {
+  //
+  //   console.log('value', value)
+  //   if (value === 1) {
+  //
+  //     const generationSectionImages = document.querySelector(".generation-sec");
+  //     generationSectionImages.style.opacity = 0
+  //     const spaceSectionImages = document.querySelector(".space-section");
+  //     spaceSectionImages.style.opacity = 1
+  //   } else {
+  //
+  //     const generationSectionImages = document.querySelector(".generation-sec");
+  //     generationSectionImages.style.opacity = 1
+  //     const spaceSectionImages = document.querySelector(".space-section");
+  //     spaceSectionImages.style.opacity = 0
+  //   }
+  // })
 
   const scaleAdvantages = useTransform(scrollYProgressAdvantages, [2, 0], [0, 2]);
-  const scaleSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 1], [1, 1]);
+  const scaleSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], [1, 4], {});
+  const transformXSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], ['0%', '150%']);
+  const transformYSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], [0, 200]);
   const scaleSpaceImg = useTransform(scrollYProgressSpaceImg, [2, 0], [0, 1]);
-  const scaleSpaceHeader = useTransform(scrollYProgressSpaceImg, [2, 0], [0, 1]);
+  const scaleSpaceHeader = useTransform(scrollYProgressSpaceImg, [1, 0], [0.9, 4]);
+  const transformYSpaceHeader = useTransform(scrollYProgressSpaceImg, [1.1, 0], ['350%', '0%']);
+
 
 
   let flexRow1 = 0
@@ -496,6 +543,41 @@ export default function Home() {
   //   // return window.removeEventListener('scroll', animationAfterAdvantages)
   // }, [])
 
+  useEffect(() => {
+
+    function sssss() {
+      const generationSection = document.querySelector(".generation-sec__container");
+      const generationSectionInfo = document.querySelector(".generation-sec__container");
+      const spaceSectionImages = document.querySelector(".space-section");
+
+
+      let scrollPosition = document.documentElement.scrollTop;
+      console.log(scrollPosition, 'scrollPosition')
+
+      if(scrollPosition >= document.documentElement.scrollTop + generationSection.getBoundingClientRect().top) {
+        // generationSectionInfo.style.display = "none"
+        // spaceSectionImages.style.display = "flex"
+        // generationSectionInfo.style.position = "absolute"
+        // spaceSectionImages.style.position = "relative"
+        // generationSectionInfo.style.opacity = "0"
+        // spaceSectionImages.style.opacity = "1"
+        // generationSectionInfo.style.height = "calc(100% - 100vh)"
+        // document.documentElement.scrollTop = document.documentElement.scrollTop + generationSection.getBoundingClientRect().top + spaceSectionImages.scrollHeight
+      } else {
+        // generationSectionInfo.style.height = "100vh"
+        // generationSectionInfo.style.display = "initial"
+        // spaceSectionImages.style.display = "none"
+        // generationSectionInfo.style.position = "relative"
+        // spaceSectionImages.style.position = "absolute"
+        // generationSectionInfo.style.opacity = "1"
+        // spaceSectionImages.style.opacity = "0"
+      }
+    }
+
+    window.addEventListener('scroll',sssss)
+
+  }, [])
+
 
 
   return (
@@ -810,47 +892,65 @@ export default function Home() {
                   {/*<p class="generation-sec__subtitle">Generation</p>*/}
                   <h2 class="page-title">If you can't find reference you can <i>generate</i> it</h2>
               </div>
-
             </motion.div>
+            {/*<motion.div*/}
+            {/*    ref={refSpaceSection}*/}
+            {/*    className={"space-section-container"}*/}
+            {/*    style={{*/}
+            {/*      scale: scaleSpaceSection*/}
+            {/*    }}>*/}
+            {/*  <div className={"space-section-images"}>*/}
+            {/*    <motion.img*/}
+            {/*        ref={refSpaceHeader}*/}
+            {/*        style={{scale: scaleSpaceHeader}}*/}
+            {/*        src={"/images/_src/Barbar_1.svg"}*/}
+            {/*    />*/}
+            {/*    <motion.img*/}
+            {/*        ref={refSpaceImg}*/}
+            {/*        style={{scale: scaleSpaceImg}}*/}
+            {/*        src={"/images/_src/Space.svg"}*/}
+            {/*    />*/}
+            {/*  </div>*/}
+            {/*</motion.div>*/}
           </section>
 
           <section className={"space-section"}>
-            <motion.div
-                ref={refSpaceSection}
-                className={"space-section-container"}
-                style={{
-                  scale: scaleSpaceSection
-                }}>
-              {/*<div class="generation-sec__img-wrapper">*/}
-              {/*    <picture class="generation-sec__img">*/}
-              {/*        <source media="(max-width: 600px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <source media="(min-width: 601px) and (max-width: 1200px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <source media="(min-width: 1201px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <img src="/images/_src/gif/gif1.gif" alt="Адаптивное изображение">*/}
-              {/*    </picture>*/}
-              {/*</div>*/}
-
-              {/*<div className="generation-sec__video-wrapper">*/}
-              {/*  <video className="generation-sec__video" playsInline muted autoPlay loop>*/}
-              {/*    <source src="/images/_src/gif/video_gif-pc.mp4" type="video/mp4"/>*/}
-              {/*      Ваш браузер не поддерживает воспроизведение видео.*/}
-              {/*  </video>*/}
-              {/*</div>*/}
-
-              <div className={"space-section-images"}>
-                <motion.img
-                    ref={refSpaceHeader}
-                    style={{scale: scaleSpaceHeader}}
-                    src={"/images/_src/Barbar_1.svg"}
-                />
-                <motion.img
-                    ref={refSpaceImg}
-                    style={{scale: scaleSpaceImg}}
-                    src={"/images/_src/Space.svg"}
-                />
-              </div>
-
-            </motion.div>
+            {/*<div><div>test</div></div>*/}
+            <div style={{ height: '150vh', position: 'absolute', width: '100%'}} ref={refSpaceSection}>
+              <motion.div
+                  // ref={refSpaceSection}
+                  className={"space-section-container"}
+                  style={{
+                    filter: `blur(${scaleSpaceSection})`,
+                    // translateX: transformXSpaceSection,
+                    // translateY: transformYSpaceSection,
+                    scale: scaleSpaceSection
+                  }}>
+                {/*<motion.div*/}
+                {/*    // ref={refSpaceSection}*/}
+                {/*    className={"space-section-container"}*/}
+                {/*    style={{*/}
+                {/*      translateX: transformXSpaceSection2,*/}
+                {/*      translateY: transformYSpaceSection2,*/}
+                {/*      scale: scaleSpaceSection*/}
+                {/*    }}>*/}
+                <div className={"space-section-images"}>
+                  <motion.img
+                      ref={refSpaceHeader}
+                      style={{scale: scaleSpaceHeader, translateY: transformYSpaceHeader}}
+                      src={"/images/_src/Barbar_1.svg"}
+                  />
+                  <motion.img
+                      ref={refSpaceImg}
+                      style={{scale: scaleSpaceImg}}
+                      src={"/images/_src/Space.svg"}
+                  />
+                </div>
+                <div style={{opacity: 0, position: "absolute", top: "30%", left: "0px" }}>
+                  <h2 >easily switch from <i>gallery</i> to <i>generation</i></h2>
+                </div>
+              </motion.div>
+            </div>
           </section>
 
           <section className="interface-sec-2">

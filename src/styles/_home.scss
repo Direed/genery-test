@@ -707,14 +707,20 @@
 }
 
 .space-section {
+    position: relative;
     width: 100%;
+    opacity: 0;
+    height: 150vh;
 }
 
 .space-section-container {
     width: 100%;
+    top: 0px;
+    position: sticky;
 }
 
 .space-section-images {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
