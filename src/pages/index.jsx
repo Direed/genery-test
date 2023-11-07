@@ -18,6 +18,10 @@ export default function Home() {
   const refScaleGalleryGenerationSection = useRef(null)
   const refOpacityEasilySwitchSection = useRef(null)
   const refOpacityLightenDropdownSection = useRef(null)
+  const refOpacityParametersTextSection = useRef(null)
+  const refTransformXEasyControlSection = useRef(null)
+  const refTransformXGenerateByImageSection = useRef(null)
+  const refScaleAdvancedToolsSection = useRef(null)
   const refSpaceImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
@@ -49,6 +53,28 @@ export default function Home() {
     target: refOpacityLightenDropdownSection,
     offset: ["start end", "end end"]
   })
+
+  const { scrollYProgress: scrollYProgressOpacityParametersTextSection } = useScroll({
+    target: refOpacityParametersTextSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressTransformXEasyControlSection } = useScroll({
+    target: refTransformXEasyControlSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressTransformXGenerateByImageSection } = useScroll({
+    target: refTransformXGenerateByImageSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressScaleAdvancedToolsSection } = useScroll({
+    target: refScaleAdvancedToolsSection,
+    offset: ["start end", "end end"]
+  })
+
+
 
   const { scrollYProgress: scrollYProgressSpaceImg } = useScroll({
     target: refSpaceImg,
@@ -144,11 +170,60 @@ export default function Home() {
     ease: circOut
   });
 
+  const opacityEasilySwitchDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], [0, 1],{
+    ease: circOut
+  });
+
   // lighten dropdown
   const opacityLightenDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], [1, 0],{
     ease: circOut
   });
   const widthLightenDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], ['50%', '100%'],{
+    ease: circOut
+  });
+
+  // parameters text
+  const opacityParametersTextSection = useTransform(scrollYProgressOpacityParametersTextSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  //easy control
+  const transformXEasyControlSection = useTransform(scrollYProgressTransformXEasyControlSection, [1, 0], ['-165%', '0%'],{
+    ease: circOut
+  });
+
+  const opacityEasyControlDropdown = useTransform(scrollYProgressTransformXEasyControlSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  const opacitySpaceLightingDropdown = useTransform(scrollYProgressTransformXEasyControlSection, [0.5, 0], [0, 1],{
+    ease: circOut
+  });
+
+  const opacityEasyControlText = useTransform(scrollYProgressTransformXEasyControlSection, [3, 0], [1, 0],{
+    ease: circOut
+  });
+
+  const opacityZeroParametersText = useTransform(scrollYProgressTransformXEasyControlSection, [0.5, 0], [0, 1], {
+    ease: circOut
+  });
+
+  //generate by image
+  const transformXGenerateByImageSection = useTransform(scrollYProgressTransformXGenerateByImageSection, [1, 0], ['165%', '0%'],{
+    ease: circOut
+  });
+
+  const opacityGenerateByImagePopup = useTransform(scrollYProgressTransformXGenerateByImageSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  //generate by image text
+  const opacityGenerateByImageText = useTransform(scrollYProgressTransformXEasyControlSection, [3.5, 0], [3, 0],{
+    ease: circOut
+  });
+
+  //advanced tools
+  const widthAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['50%', 'auto'],{
     ease: circOut
   });
 
@@ -991,6 +1066,13 @@ export default function Home() {
             <div style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
             <div style={{ height: '15vh', top: '120vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
             <div style={{ height: '15vh', top: '140vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div style={{ height: '15vh', top: '140vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div style={{height: '15vh', top: '160vh', position: 'absolute'}} ref={refOpacityParametersTextSection} />
+            <div style={{height: '15vh', top: '180vh', position: 'absolute'}} ref={refTransformXEasyControlSection} />
+            <div style={{height: '15vh', top: '200vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
+            <div style={{height: '15vh', top: '220vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
+
+
             {/*<div><div>test</div></div>*/}
             <div style={{ position: 'sticky', top: '40vh', height: '150vh', width: '100%'}}>
               <motion.div
@@ -998,6 +1080,15 @@ export default function Home() {
                   width: widthLightenDropdownSection,
                 }}
               >
+                <motion.div style={{
+                  width: widthAdvancedToolsSection
+                }}>
+                <motion.div style={{
+                  translateX: transformXGenerateByImageSection
+                }}>
+                <motion.div style={{
+                  translateX: transformXEasyControlSection
+                }}>
                 <motion.div
                   style={{
                     width: widthSpaceGalleryGenerationSection,
@@ -1010,18 +1101,73 @@ export default function Home() {
                     }}
                     // style={{scale: scaleSpaceHeader}}
                   >
-                    <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "5%" }}>
+                    <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
+                      <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "5%" }}>
 
-                      <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                        <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                      </motion.div>
                     </motion.div>
 
+                    <motion.div style={{opacity: opacityZeroParametersText, position: "absolute", top: "170%", left: "5%" }}>
+                      <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '170%', left: "5%"}}>
 
-                    <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "50%", left: "20%" }}>
+                        <div style={{maxWidth: '480px'}}>
+                          <h3 className="sec-title">Parameters</h3>
+                          <p className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
+                            our artificial intelligence was trained. All parameters work both in the gallery tab
+                            and in the generation.</p>
+                          <div className="interface-sec-3__btn-container">
+                            <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div style={{ opacity: opacityEasyControlText, position: "absolute", top: '170%', left: "80%"}}>
+
+                      <div style={{maxWidth: '480px'}}>
+                          <h3 className="sec-title">Easy control</h3>
+                          <p className="sec-subtitle">Easily manage parameters directly from the search bar</p>
+                          <div className="interface-sec-3__btn-container">
+                            <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                          </div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '170%', left: "5%"}}>
+                      <div style={{maxWidth: '480px'}}>
+                        <h3 className="sec-title">Generate by image</h3>
+                        <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to
+                          generate similar ones, or improve and edit the image</p>
+                        <div className="interface-sec-3__btn-container">
+                          <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div style={{opacity: opacitySpaceLightingDropdown}}>
+                      <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "50%", left: "20%" }}>
+                        <img
+                          style={{ width: '100%'}}
+                          src={"/images/_src/Space_lighten_dropdown.png"}
+                        />
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div style={{opacity: opacityEasyControlDropdown, position: "absolute", top: "20%", left: "61.25%" }}>
                       <img
-                        style={{ width: '100%'}}
-                        src={"/images/_src/Space_lighten_dropdown.png"}
+                          style={{ width: '100%'}}
+                          src={"/images/_src/easy-controls-dropdown.png"}
                       />
                     </motion.div>
+
+                    <motion.div style={{opacity: opacityGenerateByImagePopup, position: "absolute", top: "100%", left: "22.5%" }}>
+                      <img
+                          style={{ width: '100%'}}
+                          src={"/images/_src/generate-by-image-popup.png"}
+                      />
+                    </motion.div>
+
                     <img
                       style={{ width: '100%'}}
                       ref={refSpaceHeader}
@@ -1065,6 +1211,9 @@ export default function Home() {
                     </motion.div>
                   </motion.div>
                 </motion.div>
+                </motion.div>
+                </motion.div>
+              </motion.div>
               </motion.div>
             </div>
           </section>
