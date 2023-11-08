@@ -21,8 +21,16 @@ export default function Home() {
   const refOpacityParametersTextSection = useRef(null)
   const refTransformXEasyControlSection = useRef(null)
   const refTransformXGenerateByImageSection = useRef(null)
+
   const refScaleAdvancedToolsSection = useRef(null)
+  const refOpacityAdvancedToolsTextSection = useRef(null)
+  const refZeroOpacityAdvancedToolsTextSection = useRef(null)
+  const refScaleFlexibilitySection = useRef(null)
+  const refOpacityFlexibilityTextSection = useRef(null)
+
+
   const refSpaceImg = useRef(null)
+  const refGirlImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
     target: refAdvantages,
@@ -71,6 +79,26 @@ export default function Home() {
 
   const { scrollYProgress: scrollYProgressScaleAdvancedToolsSection } = useScroll({
     target: refScaleAdvancedToolsSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressOpacityAdvancedToolsTextSection } = useScroll({
+    target: refOpacityAdvancedToolsTextSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressZeroOpacityAdvancedToolsTextSection } = useScroll({
+    target: refZeroOpacityAdvancedToolsTextSection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressScaleFlexibilitySection } = useScroll({
+    target: refScaleFlexibilitySection,
+    offset: ["start end", "end end"]
+  })
+
+  const { scrollYProgress: scrollYProgressOpacityFlexibilityTextSection } = useScroll({
+    target: refOpacityFlexibilityTextSection,
     offset: ["start end", "end end"]
   })
 
@@ -223,13 +251,74 @@ export default function Home() {
   });
 
   //advanced tools
-  const widthAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['50%', 'auto'],{
+  const widthAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['50%', '100%'],{
     ease: circOut
   });
+  const transformXAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['-20%', '0%'],{
+    ease: circOut
+  });
+  const transformYAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['15%', '0%'],{
+    ease: circOut
+  });
+  const opacityAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], [0, 1],{
+    ease: circOut
+  });
+
+  //advanced tools text
+  const opacityAdvancedToolsTextSection = useTransform(scrollYProgressOpacityAdvancedToolsTextSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  const zeroOpacityAdvancedToolsTextSection = useTransform(scrollYProgressZeroOpacityAdvancedToolsTextSection, [1, 0], [0, 1],{
+    ease: circOut
+  });
+
+  //flexibility
+  const transformXAdvancedToolsInFlexibilitySection = useTransform(scrollYProgressScaleFlexibilitySection, [1, 0], ['42%', '0%'],{
+    ease: circOut
+  });
+
+  const zeroOpacityAdvancedToolsSection = useTransform(scrollYProgressScaleFlexibilitySection, [1, 0], [0, 1],{
+    ease: circOut
+  });
+
+  const transformXFlexibilityInAdvancedToolsSection = useTransform(scrollYProgressScaleFlexibilitySection, [1, 0], ['150%', '0%'],{
+    ease: circOut
+  });
+
+  const opacityFlexibilitySection = useTransform(scrollYProgressScaleFlexibilitySection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+  const opacityFlexibilityTextSection = useTransform(scrollYProgressOpacityFlexibilityTextSection, [1, 0], [1, 0],{
+    ease: circOut
+  });
+
+
+
 
   scrollYProgressSpaceSection.on('change', value => {
     refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
   })
+
+  scrollYProgressScaleFlexibilitySection.on('change', value => {
+    console.log(value, 'value')
+    refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
+    if(value > 0.10 ) {
+      refGirlImg.current.style.opacity = 1
+      refGirlImg.current.style.filter = `blur(${(1 - value) * 1000}px)`
+    } else {
+      refGirlImg.current.style.opacity = 0.4
+      refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
+    }
+  })
+
+  // scrollYProgressScaleFlexibilitySection.on('change', value => {
+  //   console.log(value, 'value in flexibility')
+  //   refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
+  //   refSpaceImg.current.src = value > 0.20 ? "/images/_src/flex/anamorphic, close-up, high angle 2.jpg" : '/images/_src/Space.svg'
+  //
+  // })
 
   let flexRow1 = 0
   let flexRow2 = 1
@@ -330,80 +419,80 @@ export default function Home() {
   }
 
   function imageFlexChange() {
-    let img = document.querySelector('.flexibility-sec__img')
+    let img = document.querySelector('.flexibility-section-img')
 
     if (img != null) {
 
       if (flexRow1 == 0 && flexRow2 == 1 && flexRow3 == null) {
-        img.src = 'img/_src/flex/anamorphic, close-up 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, close-up 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 1 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/anamorphic, close-up, high angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, close-up, high angle 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 1 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/anamorphic, close-up, low angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, close-up, low angle 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 0 && flexRow3 == null) {
-        img.src = 'img/_src/flex/anamorphic, extreme close-up 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, extreme close-up 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 0 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/anamorphic, extreme close-up, high angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, extreme close-up, high angle 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 0 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/anamorphic, extreme close-up, low angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, extreme close-up, low angle 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 2 && flexRow3 == null) {
-        img.src = 'img/_src/flex/anamorphic, medium 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, medium 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 2 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/anamorphic, medium, high angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, medium, high angle 2.jpg'
       }
 
       else if (flexRow1 == 0 && flexRow2 == 2 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/anamorphic, medium, low angle 2.jpg'
+        img.src = '/images/_src/flex/anamorphic, medium, low angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 1 && flexRow3 == null) {
-        img.src = 'img/_src/flex/spherical, close-up 2.jpg'
+        img.src = '/images/_src/flex/spherical, close-up 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 1 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/spherical, close-up, high angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, close-up, high angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 1 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/spherical, close-up, low angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, close-up, low angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 0 && flexRow3 == null) {
-        img.src = 'img/_src/flex/spherical, extreme close-up 2.jpg'
+        img.src = '/images/_src/flex/spherical, extreme close-up 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 0 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/spherical, extreme close-up, high angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, extreme close-up, high angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 0 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/spherical, extreme close-up, low angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, extreme close-up, low angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 2 && flexRow3 == null) {
-        img.src = 'img/_src/flex/spherical, medium 2.jpg'
+        img.src = '/images/_src/flex/spherical, medium 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 2 && flexRow3 == 0) {
-        img.src = 'img/_src/flex/spherical, medium, high angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, medium, high angle 2.jpg'
       }
 
       else if (flexRow1 == 1 && flexRow2 == 2 && flexRow3 == 1) {
-        img.src = 'img/_src/flex/spherical, medium, low angle 2.jpg'
+        img.src = '/images/_src/flex/spherical, medium, low angle 2.jpg'
       }
 
       // console.log(flexRow1, flexRow2, flexRow3)
@@ -697,7 +786,6 @@ export default function Home() {
 
 
       let scrollPosition = document.documentElement.scrollTop;
-      console.log(scrollPosition, 'scrollPosition')
 
       if(scrollPosition >= document.documentElement.scrollTop + generationSection.getBoundingClientRect().top) {
         // generationSectionInfo.style.display = "none"
@@ -724,6 +812,7 @@ export default function Home() {
   }, [])
 
 
+  console.log(zeroOpacityAdvancedToolsSection, 'zeroOpacityAdvancedToolsSection')
 
   return (
     <>
@@ -1017,49 +1106,13 @@ export default function Home() {
                   scale: scaleAdvantages
                 }}
             >
-              {/*<div class="generation-sec__img-wrapper">*/}
-              {/*    <picture class="generation-sec__img">*/}
-              {/*        <source media="(max-width: 600px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <source media="(min-width: 601px) and (max-width: 1200px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <source media="(min-width: 1201px)" srcset="/images/_src/gif/gif1.gif">*/}
-              {/*        <img src="/images/_src/gif/gif1.gif" alt="Адаптивное изображение">*/}
-              {/*    </picture>*/}
-              {/*</div>*/}
-
-              {/*<div className="generation-sec__video-wrapper">*/}
-              {/*  <video className="generation-sec__video" playsInline muted autoPlay loop>*/}
-              {/*    <source src="/images/_src/gif/video_gif-pc.mp4" type="video/mp4"/>*/}
-              {/*      Ваш браузер не поддерживает воспроизведение видео.*/}
-              {/*  </video>*/}
-              {/*</div>*/}
-
               <div class="generation-sec__info">
-                  {/*<p class="generation-sec__subtitle">Generation</p>*/}
                   <h2 class="page-title">If you can't find reference you can <i>generate</i> it</h2>
               </div>
             </motion.div>
-            {/*<motion.div*/}
-            {/*    ref={refSpaceSection}*/}
-            {/*    className={"space-section-container"}*/}
-            {/*    style={{*/}
-            {/*      scale: widthSpaceSection*/}
-            {/*    }}>*/}
-            {/*  <div className={"space-section-images"}>*/}
-            {/*    <motion.img*/}
-            {/*        ref={refSpaceHeader}*/}
-            {/*        style={{scale: scaleSpaceHeader}}*/}
-            {/*        src={"/images/_src/Barbar_1.svg"}*/}
-            {/*    />*/}
-            {/*    <motion.img*/}
-            {/*        ref={refSpaceImg}*/}
-            {/*        style={{scale: scaleSpaceImg}}*/}
-            {/*        src={"/images/_src/Space.svg"}*/}
-            {/*    />*/}
-            {/*  </div>*/}
-            {/*</motion.div>*/}
           </section>
 
-          <section style={{ height: '1600vh', transform: 'translateY(-100vh)'}} className={"space-section"}>
+          <section style={{ height: '375vh', transform: 'translateY(-100vh)'}} className={"space-section"}>
 
             <div style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
             <div style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
@@ -1071,9 +1124,13 @@ export default function Home() {
             <div style={{height: '15vh', top: '180vh', position: 'absolute'}} ref={refTransformXEasyControlSection} />
             <div style={{height: '15vh', top: '200vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
             <div style={{height: '15vh', top: '220vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
+            <div style={{height: '15vh', top: '230vh', position: 'absolute'}} ref={refOpacityAdvancedToolsTextSection} />
+            <div style={{height: '15vh', top: '240vh', position: 'absolute'}} ref={refZeroOpacityAdvancedToolsTextSection} />
+            <div style={{height: '15vh', top: '260vh', position: 'absolute'}} ref={refScaleFlexibilitySection} />
+            <div style={{height: '15vh', top: '280vh', position: 'absolute'}} ref={refOpacityFlexibilityTextSection} />
 
 
-            {/*<div><div>test</div></div>*/}
+
             <div style={{ position: 'sticky', top: '40vh', height: '150vh', width: '100%'}}>
               <motion.div
                 style={{
@@ -1081,7 +1138,7 @@ export default function Home() {
                 }}
               >
                 <motion.div style={{
-                  width: widthAdvancedToolsSection
+                  width: widthAdvancedToolsSection,
                 }}>
                 <motion.div style={{
                   translateX: transformXGenerateByImageSection
@@ -1097,16 +1154,15 @@ export default function Home() {
                   <motion.div
                     style={{
                       scale: scaleSpaceHeaderSection,
-                      translateY: transformYSpaceHeaderSection
+                      translateY: transformYSpaceHeaderSection,
+                      opacity: opacityAdvancedToolsSection,
                     }}
-                    // style={{scale: scaleSpaceHeader}}
                   >
-                    <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
-                      <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "5%" }}>
-
-                        <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
-                      </motion.div>
-                    </motion.div>
+                    {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
+                    {/*  <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "6.5%" }}>*/}
+                    {/*    <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>*/}
+                    {/*  </motion.div>*/}
+                    {/*</motion.div>*/}
 
                     <motion.div style={{opacity: opacityZeroParametersText, position: "absolute", top: "170%", left: "5%" }}>
                       <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '170%', left: "5%"}}>
@@ -1175,8 +1231,15 @@ export default function Home() {
                     />
                   </motion.div>
 
+
+                  <motion.div style={{
+                    translateX: transformXAdvancedToolsInFlexibilitySection,
+                  }}>
+                  <motion.div style={{
+                    translateX: transformXAdvancedToolsSection,
+                    translateY: transformYAdvancedToolsSection,
+                  }}>
                   <motion.div
-                      // ref={refSpaceSection}
                       className={"space-section-container"}
                       style={{
                         scale: scaleSpaceSection,
@@ -1195,6 +1258,12 @@ export default function Home() {
                             ref={refSpaceImg}
                             src={"/images/_src/Space.svg"}
                         />
+                        <img
+                            style={{ width: '100%', position: 'absolute', left: 0, opacity: 0}}
+                            ref={refGirlImg}
+                            className={'flexibility-section-img'}
+                            src={"/images/_src/flex/anamorphic, close-up, high angle 2.jpg"}
+                        />
                       </motion.div>
                     </div>
 
@@ -1204,203 +1273,110 @@ export default function Home() {
                         translateY: transformYSpaceButtonsSection
                       }}
                     >
-                      <img
-                        style={{ width: '100%'}}
-                        src={"/images/_src/Space_buttons.png"}
-                      />
+                      <div style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px'}}>
+                        <img style={{marginRight: 'auto'}} src={"/images/_src/animations/edit.png"} />
+                        <div style={{display: 'flex', gap: '10px'}}>
+                          <img src={"/images/_src/animations/arrow-down.png"}/>
+                          <img src={"/images/_src/animations/save.png"}/>
+                        </div>
+                      </div>
+                      {/*<img*/}
+                      {/*  style={{ width: '100%'}}*/}
+                      {/*  src={"/images/_src/Space_buttons.png"}*/}
+                      {/*/>*/}
                     </motion.div>
                   </motion.div>
-                </motion.div>
-                </motion.div>
-                </motion.div>
-              </motion.div>
-              </motion.div>
-            </div>
-          </section>
+                  </motion.div>
+                  </motion.div>
 
-          <section className="interface-sec-2">
-            <div className="interface-shadow interface-sw-left"></div>
-            <div className="interface-shadow interface-sw-right"></div>
-            <div className="container">
-              <div className="interface-sec-2__mini-sec0">
-                <div className="decor dc10"></div>
-                <div className="interface-sec-2__header">
-                  <img src="/images/_src/int8.png" alt="" className="interface-sec-2__img mini-sec0__im1"/>
-                    <img src="/images/_src/int7.png" alt=""
-                         className="interface-sec-2__img mini-sec0__im2 mini-sec0__im2-pc"/>
-                      <img src="/images/_src/int7-ipad.png" alt=""
-                           className="interface-sec-2__img mini-sec0__im2 mini-sec0__im2-ipad"/>
-                        <div className="interface-sec-2__img-box mini-sec0__im3">
-                          <img src="/images/_src/int9.png" alt="" className="interface-sec-2__img int9x"/>
+
+                  <motion.div style={{
+                    opacity: zeroOpacityAdvancedToolsTextSection
+                  }}>
+                    <motion.div style={{ opacity: opacityAdvancedToolsTextSection, position: "absolute", top: '85%', left: "250%"}}>
+                      <div>
+                        <h3 className="sec-title">Advanced tools</h3>
+                        <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even
+                          better results.</p>
+                        <div className="interface-sec-3__btn-container">
+                          <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
                         </div>
-                </div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
 
-                <h2 className="page-title">easily switch from <i>gallery</i> to <i>generation</i></h2>
-              </div>
 
-              <div className="interface-sec-2__mini-sec1">
-                <div className="decor dc4"></div>
-                <div className="interface-sec-3__header">
 
-                  <img src="/images/_src/int1.png" alt="" className="interface-sec-3__img int1"/>
-                    <img src="/images/_src/int2.png" alt="" className="interface-sec-3__img int2"/>
-                      <img src="/images/_src/int3.png" alt="" className="interface-sec-3__img int3"/>
-                </div>
+                  <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
+                    <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "20%", left: "50%" }}>
+                      <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                    </motion.div>
+                  </motion.div>
 
-                <div className="interface-sec-3__element-section interface-sec-3__element-section-x1">
-                  <div className="interface-sec-3__element-section-text">
-                    <h3 className="sec-title">Parameters</h3>
-                    <p className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
-                      our artificial intelligence was trained. All parameters work both in the gallery tab
-                      and in the generation.</p>
-                    <div className="interface-sec-3__btn-container">
-                      <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+
+                  <motion.div style={{
+                    opacity: opacityFlexibilityTextSection,
+                    position: "absolute",
+                    top: '85%',
+                    left: "20%"
+                  }}>
+                    <div>
+                      <div className="flexibility-sec__text">
+                        <div className="flexibility-sec__text-wrapper">
+                          <h2 className="sec-title">Flexibility</h2>
+                          <p className="sec-subtitle">You can test the flexibility of our AI by changing parameters
+                          </p>
+                        </div>
+
+                        <div className="flexibility-sec__filtr">
+                          <div className="flexibility-sec__filtr-rov1">
+                            <span className="flexibility-sec__filtr-number">01</span>
+                            <span className="flexibility-sec__filtr-line"></span>
+                          </div>
+
+                          <div className="flexibility-sec__filtr-row2 filtr-row2-v1">
+                            <div className="flexibility-sec__btn flexibility-sec__btn_active">Anamorphic lens</div>
+                            <div className="flexibility-sec__btn">Spherical lens</div>
+                          </div>
+
+                          <div className="flexibility-sec__filtr-rov1">
+                            <span className="flexibility-sec__filtr-number">02</span>
+                            <span className="flexibility-sec__filtr-line"></span>
+                          </div>
+
+                          <div className="flexibility-sec__filtr-row2 filtr-row2-v2">
+                            <div className="flexibility-sec__btn">Extreme close</div>
+                            <div className="flexibility-sec__btn flexibility-sec__btn_active">Close-up</div>
+                            <div className="flexibility-sec__btn">Medium</div>
+                          </div>
+
+                          <div className="flexibility-sec__filtr-rov1">
+                            <span className="flexibility-sec__filtr-number">03</span>
+                            <span className="flexibility-sec__filtr-line"></span>
+                          </div>
+
+                          <div className="flexibility-sec__filtr-row2 filtr-row2-v3">
+                            <div className="flexibility-sec__btn ">Hight angle</div>
+                            <div className="flexibility-sec__btn">Low angle</div>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div
-                      className="interface-sec-3__element-section-img-container interface-img-box interface-img-x1">
-                    <img src="/images/_src/intX4.png" alt="" className="interface-img-box__main-img"/>
-                      <img src="/images/_src/intX4-ipad.jpg" alt="" className="interface-img-box__main-img-ipad"/>
-                        <img src="/images/_src/intX1__bg.jpg" alt="" className="interface-img-box__bg"/>
-                          <div className="decor dc6"></div>
-                  </div>
-                </div>
-              </div>
 
-              <div className="interface-sec-2__mini-sec2">
-                <div className="decor dc9"></div>
-                <div className="interface-sec-2__header">
-                  <img src="/images/_src/int4.png" alt="" className="interface-sec-2__img int4"/>
-                    <img src="/images/_src/int6.png" alt="" className="interface-sec-2__img int6"/>
-                      <img src="/images/_src/int5.png" alt="" className="interface-sec-2__img int5"/>
-                </div>
 
-                <div className="interface-sec-2__element-section interface-sec-2__element-section-x2">
-                  <div className="interface-sec-2__element-section-text">
-                    <h3 className="sec-title">Easy control</h3>
-                    <p className="sec-subtitle">Easily manage parameters directly from the search bar</p>
-                    <div className="interface-sec-3__btn-container">
-                      <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                    </div>
-                  </div>
 
-                  <img src="/images/_src/intX3__bg.jpg" alt="" className="interface-img-box__bg"/>
-                </div>
-              </div>
+
+                </motion.div>
+                </motion.div>
+                </motion.div>
+              </motion.div>
+              </motion.div>
             </div>
           </section>
 
-          <section className="interface-sec-3">
-            <div className="interface-shadow interface-sw-left"></div>
-            <div className="interface-shadow interface-sw-right"></div>
-            <div className="decor dc4"></div>
-
-            <div className="interface-sec-3__container-box-all">
-              <div className="container">
-
-                <div className="interface-sec-3__header">
-
-                  <img src="/images/_src/int1.png" alt="" className="interface-sec-3__img int1"/>
-                    <img src="/images/_src/int2.png" alt="" className="interface-sec-3__img int2"/>
-                      <img src="/images/_src/int3.png" alt="" className="interface-sec-3__img int3"/>
-                </div>
-
-                <div className="interface-sec-3__element-section interface-sec-3__element-section-x1">
-                  <div className="interface-sec-3__element-section-text">
-                    <h3 className="sec-title">Generate by image</h3>
-                    <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to
-                      generate similar ones, or improve and edit the image</p>
-                    <div className="interface-sec-3__btn-container">
-                      <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                    </div>
-                  </div>
-
-                  <div
-                      className="interface-sec-3__element-section-img-container interface-img-box interface-img-x1">
-                    <img src="/images/_src/intX1.png" alt="" className="interface-img-box__main-img intX1-pc"/>
-                      <img src="/images/_src/intX1-ipad.jpg" alt="" className="intX1-ipad"/>
-                        <img src="/images/_src/intX1__bg.jpg" alt="" className="interface-img-box__bg"/>
-                          <div className="decor dc6"></div>
-                  </div>
-                </div>
-
-
-                <div className="interface-sec-3__element-section interface-sec-3__element-section-x2">
-                  <div className="decor dc5"></div>
-                  <div
-                      className="interface-sec-3__element-section-img-container interface-img-box interface-img-x2">
-                    <img src="/images/_src/intX2.jpg" alt=""
-                         className="interface-img-box__main-img interface-img-box__main-img_pc"/>
-                      <img src="/images/_src/intX2-ipad.jpg" alt=""
-                           className="interface-img-box__main-img interface-img-box__main-img_ipad"/>
-                  </div>
-
-                  <div className="interface-sec-3__element-section-text">
-                    <h3 className="sec-title">Advanced tools</h3>
-                    <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even
-                      better results.</p>
-                    <div className="interface-sec-3__btn-container">
-                      <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </section>
-
-          <section className="flexibility-sec">
-            <div className="container">
-              <div className="flexibility-sec__info">
-                <div className="flexibility-sec__text">
-                  <div className="flexibility-sec__text-wrapper">
-                    <h2 className="sec-title">Flexibility</h2>
-                    <p className="sec-subtitle">You can test the flexibility of our AI by changing parameters
-                    </p>
-                  </div>
-
-                  <div className="flexibility-sec__filtr">
-                    <div className="flexibility-sec__filtr-rov1">
-                      <span className="flexibility-sec__filtr-number">01</span>
-                      <span className="flexibility-sec__filtr-line"></span>
-                    </div>
-
-                    <div className="flexibility-sec__filtr-row2 filtr-row2-v1">
-                      <div className="flexibility-sec__btn flexibility-sec__btn_active">Anamorphic lens</div>
-                      <div className="flexibility-sec__btn">Spherical lens</div>
-                    </div>
-
-                    <div className="flexibility-sec__filtr-rov1">
-                      <span className="flexibility-sec__filtr-number">02</span>
-                      <span className="flexibility-sec__filtr-line"></span>
-                    </div>
-
-                    <div className="flexibility-sec__filtr-row2 filtr-row2-v2">
-                      <div className="flexibility-sec__btn">Extreme close</div>
-                      <div className="flexibility-sec__btn flexibility-sec__btn_active">Close-up</div>
-                      <div className="flexibility-sec__btn">Medium</div>
-                    </div>
-
-                    <div className="flexibility-sec__filtr-rov1">
-                      <span className="flexibility-sec__filtr-number">03</span>
-                      <span className="flexibility-sec__filtr-line"></span>
-                    </div>
-
-                    <div className="flexibility-sec__filtr-row2 filtr-row2-v3">
-                      <div className="flexibility-sec__btn ">Hight angle</div>
-                      <div className="flexibility-sec__btn">Low angle</div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div className="flexibility-sec__img-wrapper">
-                <img src="" alt="" className="flexibility-sec__img"/>
-              </div>
-              <div className="dc7 decor"></div>
-            </div>
-          </section>
 
           <section className="infographix-sec">
             <div className="container">
