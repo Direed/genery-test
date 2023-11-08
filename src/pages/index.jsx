@@ -29,6 +29,9 @@ export default function Home() {
   const refOpacityFlexibilityTextSection = useRef(null)
 
 
+  const refFirstScreen = useRef(null)
+
+
   const refSpaceImg = useRef(null)
   const refGirlImg = useRef(null)
   const refSpaceHeader = useRef(null)
@@ -102,6 +105,11 @@ export default function Home() {
     offset: ["start end", "end end"]
   })
 
+  const { scrollYProgress: scrollYProgressScaleFirstScreen } = useScroll({
+    target: refFirstScreen,
+    offset: ["start end", "end end"]
+  })
+
 
 
   const { scrollYProgress: scrollYProgressSpaceImg } = useScroll({
@@ -114,7 +122,6 @@ export default function Home() {
   })
   scrollYProgressAdvantages.on('change', (value) => {
 
-    console.log('value', value)
     if (value === 1) {
 
       const generationSectionImages = document.querySelector(".generation-sec");
@@ -295,6 +302,12 @@ export default function Home() {
   });
 
 
+  //first screen
+  const scaleFirstScreen = useTransform(scrollYProgressScaleFirstScreen, [1, 0], [1, 2],{
+    ease: circOut
+  });
+
+
 
 
   scrollYProgressSpaceSection.on('change', value => {
@@ -323,46 +336,6 @@ export default function Home() {
   let flexRow1 = 0
   let flexRow2 = 1
   let flexRow3 = null
-
-  function firstScrean() {
-    let bgImage = document.querySelector('.front-sec__bg-img')
-
-    if (bgImage != null) {
-      let container = document.querySelector('.front-sec')
-      let heightContainer = container.offsetHeight
-      let windowHeight = window.innerHeight
-      let maxScrollValue = heightContainer - windowHeight
-      console.log(window.scrollY)
-
-      window.addEventListener("scroll", function (event) {
-        let skrillValue = window.scrollY
-        let currentSkrollValue = skrillValue / +maxScrollValue
-
-        if (currentSkrollValue <= 1) {
-          if (mediaQuery750.matches) {
-            currentSkrollValue = currentSkrollValue / 2
-            bgImage.style.transform = `scale(${1.5 - currentSkrollValue})`
-          }
-          else {
-            bgImage.style.transform = `scale(${2 - currentSkrollValue})`
-          }
-        }
-        else {
-          if (mediaQuery750.matches) {
-            currentSkrollValue = currentSkrollValue / 2
-            bgImage.style.transform = `scale(${1})`
-          }
-          else {
-            bgImage.style.transform = `scale(${1})`
-          }
-        }
-
-
-
-      });
-
-    }
-  }
 
   function flexFunction() {
     let lensBtn = document.querySelectorAll('.filtr-row2-v1 .flexibility-sec__btn')
@@ -723,9 +696,6 @@ export default function Home() {
 
   useEffect(() => {
 
-    //anim first screan
-    firstScrean()
-
     //flex sec change
 
     flexFunction()
@@ -953,11 +923,17 @@ export default function Home() {
         <main className="main" id="main-top">
 
           <section className="front-sec">
+
             <div className="decor dc1"></div>
             <div className="decor dc2"></div>
             <div className="front-sec__bg-img-container">
-              <img src="/images/_src/front-sec-home2.jpg" alt="" className="front-sec__bg-img"/>
+              <motion.img
+                  style={{scale: scaleFirstScreen}}
+                  src="/images/_src/front-sec-home2.jpg" alt=""
+                  className="front-sec__bg-img"
+              />
             </div>
+            <div style={{ width: '100%', height: '100vh', position: 'absolute' }} ref={refFirstScreen} />
             <div className="front-sec__wrapper">
               <div className="front-sec__container-content front-sec__container-content-first">
                 <div className="container">
@@ -1158,11 +1134,11 @@ export default function Home() {
                       opacity: opacityAdvancedToolsSection,
                     }}
                   >
-                    {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
-                    {/*  <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "6.5%" }}>*/}
-                    {/*    <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>*/}
-                    {/*  </motion.div>*/}
-                    {/*</motion.div>*/}
+                    <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
+                      <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "6.5%" }}>
+                        <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                      </motion.div>
+                    </motion.div>
 
                     <motion.div style={{opacity: opacityZeroParametersText, position: "absolute", top: "170%", left: "5%" }}>
                       <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '170%', left: "5%"}}>
@@ -1307,11 +1283,11 @@ export default function Home() {
 
 
 
-                  <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
-                    <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "20%", left: "50%" }}>
-                      <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
-                    </motion.div>
-                  </motion.div>
+                  {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
+                  {/*  <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "20%", left: "50%" }}>*/}
+                  {/*    <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>*/}
+                  {/*  </motion.div>*/}
+                  {/*</motion.div>*/}
 
 
                   <motion.div style={{
