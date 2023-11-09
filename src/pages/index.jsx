@@ -33,6 +33,7 @@ export default function Home() {
 
 
   const refSpaceImg = useRef(null)
+  const refSpaceButtons = useRef(null)
   const refGirlImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const { scrollYProgress: scrollYProgressAdvantages } = useScroll({
@@ -257,6 +258,10 @@ export default function Home() {
     ease: circOut
   });
 
+  const zeroOpacityGenerateByImageText = useTransform(scrollYProgressScaleAdvancedToolsSection, [0.5, 0], [0, 1],{
+    ease: circOut
+  });
+
   //advanced tools
   const widthAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['50%', '100%'],{
     ease: circOut
@@ -301,6 +306,10 @@ export default function Home() {
     ease: circOut
   });
 
+  const opacitySpaceButtonsSection = useTransform(scrollYProgressScaleFlexibilitySection, [1, 0], [0, 1],{
+    ease: circOut
+  });
+
 
   //first screen
   const scaleFirstScreen = useTransform(scrollYProgressScaleFirstScreen, [1, 0], [1, 2],{
@@ -325,6 +334,12 @@ export default function Home() {
       refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
     }
   })
+
+  scrollYProgressScaleGalleryGenerationSection.on('change', value => {
+    refSpaceImg.current.style.opacity = 0.4
+  })
+
+  // scrollYProgressGe
 
   // scrollYProgressScaleFlexibilitySection.on('change', value => {
   //   console.log(value, 'value in flexibility')
@@ -1088,7 +1103,7 @@ export default function Home() {
             </motion.div>
           </section>
 
-          <section style={{ height: '375vh', transform: 'translateY(-100vh)'}} className={"space-section"}>
+          <section style={{ height: '375vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
 
             <div style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
             <div style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
@@ -1129,31 +1144,33 @@ export default function Home() {
                 >
                   <motion.div
                     style={{
+                      zIndex: 100,
+                      position: 'relative',
                       scale: scaleSpaceHeaderSection,
                       translateY: transformYSpaceHeaderSection,
                       opacity: opacityAdvancedToolsSection,
                     }}
                   >
-                    <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
-                      <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "6.5%" }}>
-                        <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
-                      </motion.div>
-                    </motion.div>
+                    {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
+                    {/*  <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "170%", left: "6.5%" }}>*/}
+                    {/*    <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>*/}
+                    {/*  </motion.div>*/}
+                    {/*</motion.div>*/}
 
-                    <motion.div style={{opacity: opacityZeroParametersText, position: "absolute", top: "170%", left: "5%" }}>
-                      <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '170%', left: "5%"}}>
+                    {/*<motion.div style={{opacity: opacityZeroParametersText, position: "absolute", top: "170%", left: "5%" }}>*/}
+                    {/*  <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '170%', left: "5%"}}>*/}
 
-                        <div style={{maxWidth: '480px'}}>
-                          <h3 className="sec-title">Parameters</h3>
-                          <p className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
-                            our artificial intelligence was trained. All parameters work both in the gallery tab
-                            and in the generation.</p>
-                          <div className="interface-sec-3__btn-container">
-                            <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </motion.div>
+                    {/*    <div style={{maxWidth: '480px'}}>*/}
+                    {/*      <h3 className="sec-title">Parameters</h3>*/}
+                    {/*      <p className="sec-subtitle">You can use the cinematic parameters we have prepared, on which*/}
+                    {/*        our artificial intelligence was trained. All parameters work both in the gallery tab*/}
+                    {/*        and in the generation.</p>*/}
+                    {/*      <div className="interface-sec-3__btn-container">*/}
+                    {/*        <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>*/}
+                    {/*      </div>*/}
+                    {/*    </div>*/}
+                    {/*  </motion.div>*/}
+                    {/*</motion.div>*/}
 
                     <motion.div style={{ opacity: opacityEasyControlText, position: "absolute", top: '170%', left: "80%"}}>
 
@@ -1166,16 +1183,16 @@ export default function Home() {
                       </div>
                     </motion.div>
 
-                    <motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '170%', left: "5%"}}>
-                      <div style={{maxWidth: '480px'}}>
-                        <h3 className="sec-title">Generate by image</h3>
-                        <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to
-                          generate similar ones, or improve and edit the image</p>
-                        <div className="interface-sec-3__btn-container">
-                          <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                        </div>
-                      </div>
-                    </motion.div>
+                    {/*<motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '170%', left: "5%"}}>*/}
+                    {/*  <div style={{maxWidth: '480px'}}>*/}
+                    {/*    <h3 className="sec-title">Generate by image</h3>*/}
+                    {/*    <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to*/}
+                    {/*      generate similar ones, or improve and edit the image</p>*/}
+                    {/*    <div className="interface-sec-3__btn-container">*/}
+                    {/*      <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</motion.div>*/}
 
                     <motion.div style={{opacity: opacitySpaceLightingDropdown}}>
                       <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "50%", left: "20%" }}>
@@ -1240,26 +1257,41 @@ export default function Home() {
                             className={'flexibility-section-img'}
                             src={"/images/_src/flex/anamorphic, close-up, high angle 2.jpg"}
                         />
+
+
+                        {/*<motion.div style={{*/}
+                        {/*  position: "absolute", top: '40%', left: "105%", width: '365%',*/}
+                        {/*  opacity: zeroOpacityAdvancedToolsTextSection*/}
+                        {/*}}>*/}
+                        {/*  <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>*/}
+                        {/*    <div>*/}
+                        {/*      <h3 className="sec-title">Advanced tools</h3>*/}
+                        {/*      <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even*/}
+                        {/*        better results.</p>*/}
+                        {/*      <div className="interface-sec-3__btn-container">*/}
+                        {/*        <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>*/}
+                        {/*      </div>*/}
+                        {/*    </div>*/}
+                        {/*  </motion.div>*/}
+                        {/*</motion.div>*/}
+
                       </motion.div>
                     </div>
 
                     <motion.div
                       style={{
+                        opacity: opacitySpaceButtonsSection,
                         scale: scaleSpaceButtonsSection,
                         translateY: transformYSpaceButtonsSection
                       }}
                     >
-                      <div style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px'}}>
+                      <div ref={refSpaceButtons} style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px'}}>
                         <img style={{marginRight: 'auto'}} src={"/images/_src/animations/edit.png"} />
                         <div style={{display: 'flex', gap: '10px'}}>
                           <img src={"/images/_src/animations/arrow-down.png"}/>
                           <img src={"/images/_src/animations/save.png"}/>
                         </div>
                       </div>
-                      {/*<img*/}
-                      {/*  style={{ width: '100%'}}*/}
-                      {/*  src={"/images/_src/Space_buttons.png"}*/}
-                      {/*/>*/}
                     </motion.div>
                   </motion.div>
                   </motion.div>
@@ -1267,9 +1299,10 @@ export default function Home() {
 
 
                   <motion.div style={{
+                    position: "absolute", top: 'calc((375vh - 275vh) * 0.9)', left: "65vw", width: '100%',
                     opacity: zeroOpacityAdvancedToolsTextSection
                   }}>
-                    <motion.div style={{ opacity: opacityAdvancedToolsTextSection, position: "absolute", top: '85%', left: "250%"}}>
+                    <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>
                       <div>
                         <h3 className="sec-title">Advanced tools</h3>
                         <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even
@@ -1283,18 +1316,52 @@ export default function Home() {
 
 
 
-                  {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
-                  {/*  <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "20%", left: "50%" }}>*/}
-                  {/*    <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>*/}
-                  {/*  </motion.div>*/}
-                  {/*</motion.div>*/}
+                  <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
+                    <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "25%", width: '100%', paddingLeft: '8%' }}>
+                      <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div style={{opacity: opacityZeroParametersText }}>
+                    <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '37%', left: "10%"}}>
+
+                      <div style={{maxWidth: '480px'}}>
+                        <h3 className="sec-title">Parameters</h3>
+                        <p className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
+                          our artificial intelligence was trained. All parameters work both in the gallery tab
+                          and in the generation.</p>
+                        <div className="interface-sec-3__btn-container">
+                          <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+
+
+
+                  <motion.div style={{opacity: zeroOpacityGenerateByImageText}}>
+                    <motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '37%', left: "10%"}}>
+                      <div style={{maxWidth: '480px'}}>
+                        <h3 className="sec-title">Generate by image</h3>
+                        <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to
+                          generate similar ones, or improve and edit the image</p>
+                        <div className="interface-sec-3__btn-container">
+                          <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+
+
+
 
 
                   <motion.div style={{
                     opacity: opacityFlexibilityTextSection,
                     position: "absolute",
-                    top: '85%',
-                    left: "20%"
+                    top: '75%',
+                    left: "20%",
+                    width: "100%"
                   }}>
                     <div>
                       <div className="flexibility-sec__text">
@@ -1344,12 +1411,13 @@ export default function Home() {
 
 
 
+                </motion.div>
+                </motion.div>
+                </motion.div>
+              </motion.div>
+              </motion.div>
 
-                </motion.div>
-                </motion.div>
-                </motion.div>
-              </motion.div>
-              </motion.div>
+
             </div>
           </section>
 
