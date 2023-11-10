@@ -24,7 +24,9 @@ body {
 }
 
 .front-sec__bg-img {
+    position: relative;
     width: 100%;
+    height: auto;
     transform: scale(2);
     transition: all linear 0.8s;
     display: block;
@@ -299,6 +301,7 @@ body {
 }
 
 .adv__img {
+    position: relative;
     display: block;
 }
 
@@ -451,6 +454,7 @@ body {
 .adv__imgV3 {
     display: block;
     width: 383px;
+    height: auto;
     margin-bottom: 32px;
 }
 
@@ -547,6 +551,7 @@ body {
 .adv__img-v7 {
     width: 169px;
     display: block;
+    height: auto;
 }
 
 .adv__info-v7 {
@@ -612,6 +617,7 @@ body {
 
 .advantages-sec__v9-img {
     height: 150px;
+    width: auto;
     display: block;
 }
 
@@ -645,6 +651,7 @@ body {
 
 .adv__imgV11-x {
     width: calc(33.333% - 10px);
+    height: auto;
     display: block;
 }
 
@@ -991,6 +998,8 @@ body {
 }
 
 .swipe-anim-container__img-element {
+    height: auto;
+    width: auto;
     object-fit: cover;
     border-radius: 0;
 }
@@ -1711,6 +1720,7 @@ body {
 
 .interface-img-box__main-img {
     width: 100%;
+    height: auto;
 }
 
 .interface-img-x1 {
@@ -1794,7 +1804,9 @@ body {
 
 .advantages-sec__v2-form {
     width: 100%;
+    height: auto;
     display: block;
+    position: relative;
 }
 
 .interface-img-box__main-img_pc {
@@ -1979,6 +1991,8 @@ body {
 
 .intX1-ipad {
     display: none;
+    height: auto;
+    width: auto;
 }
 
 
