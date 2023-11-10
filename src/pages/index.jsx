@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import {useEffect, useRef, useState} from "react";
 
-import { motion, circOut, useTransform, useScroll, easeInOut, easeIn } from "framer-motion";
+import { motion, circOut, useTransform, useScroll, easeIn } from "framer-motion";
 import Gallery from "@/components/gallery";
 import FrontSection from "@/components/components/FrontSection";
 import AdvantagesSection from "@/components/components/AdvantagesSection";
@@ -16,6 +16,7 @@ import PlanPriceSection from "@/components/components/PlanPriceSection";
 import PromptExamplesSection from "@/components/components/PromptExamplesSection";
 import PreviewsSection from "@/components/components/PreviewsSection";
 import InfographixSection from "@/components/components/InfographixSection";
+import useVerticalScroll from "@/hooks/useVerticalScroll";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,6 +44,34 @@ export default function Home() {
   const refGirlImg = useRef(null)
   const refSpaceHeader = useRef(null)
   const refHiddenBlock = useRef(null)
+
+  const y = useVerticalScroll({ref: refScaleSpaceSection, limit: 100, springConfig: {mass: 0.01, stiffness: 2, damping: 1 }})
+  useVerticalScroll(refScaleGalleryGenerationSection)
+  useVerticalScroll(refOpacityEasilySwitchSection)
+  console.log('y', y)
+  y.on('change', (value) => {
+
+    const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+    const updatedScale = getTransformValue(1, 0.6)
+    const updatedTransformX = getTransformValue(-10, 4)
+    const updatedTransformY = getTransformValue(0, 33)
+    const updatedHeaderScale = getTransformValue(3, 0.95)
+    const updatedHeaderTransformY = getTransformValue(-10, 62)
+    const updatedButtonsScale = getTransformValue(3, 1)
+    const updatedButtonsTransformY = getTransformValue(50, -10)
+
+    const element = document.querySelector('.space-section-container')
+    const headerElement = document.querySelector('.header-container')
+    const buttonsElement = document.querySelector('.space-buttons')
+
+    // element.style.scale = updatedScale
+    element.style.transform = `translateX(${updatedTransformX}%) translateY(${updatedTransformY}%) scale(${updatedScale}) translateY(0px)`
+    headerElement.style.transform = `translateX(0px) translateY(${updatedHeaderTransformY}vh) scale(${updatedHeaderScale}) translateY(0px)`
+    buttonsElement.style.transform = `translateX(0px) translateY(${updatedButtonsTransformY}vh) scale(${updatedButtonsScale}) translateY(0px)`
+
+    // element.style.translateY = `${updatedTransformY}%`
+    console.log('value', value)
+  })
 
   const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
     target: refSpaceSection,
@@ -120,30 +149,6 @@ export default function Home() {
     target: refSpaceHeader,
     offset: ["start end", "end end"]
   })
-
-  scrollYProgressScaleGalleryGenerationSection.on('change', () => {
-
-  })
-
-
-  //TODO: logic for scaling container to left top section
-  // scrollYProgressSpaceSection.on('change', (value) => {
-  //
-  //   console.log('value', value)
-  //   if (value === 1) {
-  //
-  //     const generationSectionImages = document.querySelector(".generation-sec");
-  //     generationSectionImages.style.opacity = 0
-  //     const spaceSectionImages = document.querySelector(".space-section");
-  //     spaceSectionImages.style.opacity = 1
-  //   } else {
-  //
-  //     const generationSectionImages = document.querySelector(".generation-sec");
-  //     generationSectionImages.style.opacity = 1
-  //     const spaceSectionImages = document.querySelector(".space-section");
-  //     spaceSectionImages.style.opacity = 0
-  //   }
-  // })
 
   const widthSpaceSection = useTransform(scrollYProgressSpaceSection, [1, 0], ['100%', '600%'],{
     ease: circOut
@@ -346,13 +351,6 @@ export default function Home() {
       refHiddenBlock.current.style.display = 'block'
     }
   })
-
-  // scrollYProgressScaleFlexibilitySection.on('change', value => {
-  //   console.log(value, 'value in flexibility')
-  //   refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
-  //   refSpaceImg.current.src = value > 0.20 ? "/images/_src/flex/anamorphic, close-up, high angle 2.jpg" : '/images/_src/Space.webp'
-  //
-  // })
 
   let flexRow1 = 0
   let flexRow2 = 1
@@ -744,67 +742,6 @@ export default function Home() {
     mobMeny()
   }, [mediaQuery, mediaQuery750])
 
-
-  // function animationAfterAdvantages() {
-  //   const advantagesSection = document.querySelector(".advantages-sec .container");
-  //   console.log(advantagesSection.getBoundingClientRect().top + window.scrollY + advantagesSection.scrollHeight, 'advantagesSection.scrollHeight')
-  //   let scrollPosition = document.documentElement.scrollTop;
-  //   console.log(scrollPosition, 'scrollPosition')
-  //   const generationSection = document.querySelector(".generation-sec__container");
-  //
-  //   console.log(generationSection.style, 'generationSection')
-  //
-  //   if(scrollPosition > advantagesSection.getBoundingClientRect().top + window.scrollY + advantagesSection.scrollHeight - 380) {
-  //     generationSection.style.transform = `scale(${(generationSection.getBoundingClientRect().width / generationSection.offsetWidth) - 0.1})`
-  //   }
-  //
-  // }
-  //
-  //
-  // useEffect(() => {
-  //
-  //   window.addEventListener("scroll", animationAfterAdvantages)
-  //
-  //   // return window.removeEventListener('scroll', animationAfterAdvantages)
-  // }, [])
-
-  useEffect(() => {
-
-    function sssss() {
-      const generationSection = document.querySelector(".generation-sec__container");
-      const generationSectionInfo = document.querySelector(".generation-sec__container");
-      const spaceSectionImages = document.querySelector(".space-section");
-
-
-      let scrollPosition = document.documentElement.scrollTop;
-
-      if(scrollPosition >= document.documentElement.scrollTop + generationSection.getBoundingClientRect().top) {
-        // generationSectionInfo.style.display = "none"
-        // spaceSectionImages.style.display = "flex"
-        // generationSectionInfo.style.position = "absolute"
-        // spaceSectionImages.style.position = "relative"
-        // generationSectionInfo.style.opacity = "0"
-        // spaceSectionImages.style.opacity = "1"
-        // generationSectionInfo.style.height = "calc(100% - 100vh)"
-        // document.documentElement.scrollTop = document.documentElement.scrollTop + generationSection.getBoundingClientRect().top + spaceSectionImages.scrollHeight
-      } else {
-        // generationSectionInfo.style.height = "100vh"
-        // generationSectionInfo.style.display = "initial"
-        // spaceSectionImages.style.display = "none"
-        // generationSectionInfo.style.position = "relative"
-        // spaceSectionImages.style.position = "absolute"
-        // generationSectionInfo.style.opacity = "1"
-        // spaceSectionImages.style.opacity = "0"
-      }
-    }
-
-    window.addEventListener('scroll',sssss)
-
-  }, [])
-
-
-  console.log(zeroOpacityAdvancedToolsSection, 'zeroOpacityAdvancedToolsSection')
-
   return (
     <>
       <Head>
@@ -946,21 +883,21 @@ export default function Home() {
           <AdvantagesSection />
           <GenerationSection />
 
-          <section style={{ height: '375vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
+          <section style={{ height: '760vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
             <div style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
             <div style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
             <div style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
-            <div style={{ height: '15vh', top: '120vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
-            <div style={{ height: '15vh', top: '140vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
-            <div style={{ height: '15vh', top: '140vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
-            <div style={{height: '15vh', top: '160vh', position: 'absolute'}} ref={refOpacityParametersTextSection} />
-            <div style={{height: '15vh', top: '180vh', position: 'absolute'}} ref={refTransformXEasyControlSection} />
-            <div style={{height: '15vh', top: '200vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
-            <div style={{height: '15vh', top: '220vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
-            <div style={{height: '15vh', top: '230vh', position: 'absolute'}} ref={refOpacityAdvancedToolsTextSection} />
-            <div style={{height: '15vh', top: '240vh', position: 'absolute'}} ref={refZeroOpacityAdvancedToolsTextSection} />
-            <div style={{height: '15vh', top: '260vh', position: 'absolute'}} ref={refScaleFlexibilitySection} />
-            <div style={{height: '15vh', top: '280vh', position: 'absolute'}} ref={refOpacityFlexibilityTextSection} />
+            <div style={{ height: '50vh', top: '120vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
+            <div style={{ height: '50vh', top: '170vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div style={{ height: '50vh', top: '220vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div style={{height: '50vh', top: '270vh', position: 'absolute'}} ref={refOpacityParametersTextSection} />
+            <div style={{height: '50vh', top: '320vh', position: 'absolute'}} ref={refTransformXEasyControlSection} />
+            <div style={{height: '50vh', top: '370vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
+            <div style={{height: '50vh', top: '420vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
+            <div style={{height: '50vh', top: '470vh', position: 'absolute'}} ref={refOpacityAdvancedToolsTextSection} />
+            <div style={{height: '50vh', top: '520vh', position: 'absolute'}} ref={refZeroOpacityAdvancedToolsTextSection} />
+            <div style={{height: '50vh', top: '570vh', position: 'absolute'}} ref={refScaleFlexibilitySection} />
+            <div style={{height: '50vh', top: '620vh', position: 'absolute'}} ref={refOpacityFlexibilityTextSection} />
 
             <div style={{ position: 'sticky', top: '40vh', height: '150vh', width: '100%'}}>
               <motion.div
@@ -983,11 +920,12 @@ export default function Home() {
                   }}
                 >
                   <motion.div
+                      className={'header-container'}
                     style={{
                       zIndex: 100,
                       position: 'relative',
-                      scale: scaleSpaceHeaderSection,
-                      translateY: transformYSpaceHeaderSection,
+                      // scale: scaleSpaceHeaderSection,
+                      // translateY: transformYSpaceHeaderSection,
                       opacity: opacityAdvancedToolsSection,
                     }}
                   >
@@ -1079,12 +1017,12 @@ export default function Home() {
                     translateX: transformXAdvancedToolsSection,
                     translateY: transformYAdvancedToolsSection,
                   }}>
-                  <motion.div
+                  <div
                       className={"space-section-container"}
                       style={{
-                        scale: scaleSpaceSection,
-                        translateX: transformXSpaceSection,
-                        translateY: transformYSpaceSection,
+                        // scale: scaleSpaceSection,
+                        // translateX: transformXSpaceSection,
+                        // translateY: transformYSpaceSection,
                       }}>
                     <div className={"space-section-images"}>
 
@@ -1133,10 +1071,11 @@ export default function Home() {
                     </div>
 
                     <motion.div
+                        className={"space-buttons"}
                       style={{
                         opacity: opacitySpaceButtonsSection,
-                        scale: scaleSpaceButtonsSection,
-                        translateY: transformYSpaceButtonsSection
+                        // scale: scaleSpaceButtonsSection,
+                        // translateY: transformYSpaceButtonsSection
                       }}
                     >
                       <div ref={refSpaceButtons} style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px', position: 'relative'}}>
@@ -1158,7 +1097,7 @@ export default function Home() {
                         </div>}
                       </div>
                     </motion.div>
-                  </motion.div>
+                  </div>
                   </motion.div>
                   </motion.div>
 
