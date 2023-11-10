@@ -22,6 +22,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [mediaQuery, setMediaQuery] = useState(0);
   const [mediaQuery750, setMediaQuery750] = useState(0);
+  const [isOpenFullSpaceButtons, setIsOpenFullSpaceButtons] = useState(false);
   const refSpaceSection = useRef(null)
   const refScaleSpaceSection = useRef(null)
   const refScaleGalleryGenerationSection = useRef(null)
@@ -41,6 +42,7 @@ export default function Home() {
   const refSpaceButtons = useRef(null)
   const refGirlImg = useRef(null)
   const refSpaceHeader = useRef(null)
+  const refHiddenBlock = useRef(null)
 
   const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
     target: refSpaceSection,
@@ -196,6 +198,12 @@ export default function Home() {
   const widthLightenDropdownSection = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], ['50%', '100%'],{
     ease: circOut
   });
+  const transformYSpaceSectionToTop = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], ['-30%', '0%'],{
+    ease: circOut
+  });
+  const transformYSpaceSectionToBottom = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['30%', '0%'],{
+    ease: circOut
+  });
 
   // parameters text
   const opacityParametersTextSection = useTransform(scrollYProgressOpacityParametersTextSection, [1, 0], [1, 0],{
@@ -309,10 +317,35 @@ export default function Home() {
   })
 
   scrollYProgressScaleGalleryGenerationSection.on('change', value => {
-    refSpaceImg.current.style.opacity = 0.4
+    if(value === 0) {
+      refSpaceImg.current.style.opacity = 1
+    } else {
+      refSpaceImg.current.style.opacity = 0.4
+    }
   })
 
-  // scrollYProgressGe
+  scrollYProgressScaleAdvancedToolsSection.on('change', value => {
+    if(value <= 0.6) {
+      refSpaceImg.current.style.opacity = 0.4 + value;
+      setIsOpenFullSpaceButtons(false)
+    } else {
+      refSpaceImg.current.style.opacity = 1
+      setIsOpenFullSpaceButtons(true)
+    }
+  })
+
+  scrollYProgressOpacityAdvancedToolsTextSection.on('change', value => {
+    refGirlImg.current.style.opacity = 0
+    refGirlImg.current.style.filter = `blur(${value}px)`
+  })
+
+  scrollYProgressTransformXEasyControlSection.on('change', value => {
+    if(value === 0) {
+      refHiddenBlock.current.style.display = 'none'
+    } else {
+      refHiddenBlock.current.style.display = 'block'
+    }
+  })
 
   // scrollYProgressScaleFlexibilitySection.on('change', value => {
   //   console.log(value, 'value in flexibility')
@@ -1002,7 +1035,7 @@ export default function Home() {
                     {/*</motion.div>*/}
 
                     <motion.div style={{opacity: opacitySpaceLightingDropdown}}>
-                      <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "50%", left: "20%" }}>
+                      <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "calc(60% - 30px)", left: "calc(24% - 130px)" }}>
                         <img
                           style={{ width: '100%'}}
                           src={"/images/_src/Space_lighten_dropdown.webp"}
@@ -1011,13 +1044,16 @@ export default function Home() {
                       </motion.div>
                     </motion.div>
 
-                    <motion.div style={{opacity: opacityEasyControlDropdown, position: "absolute", top: "20%", left: "61.25%" }}>
-                      <img
-                          style={{ width: '100%'}}
-                          src={"/images/_src/easy-controls-dropdown.png"}
-                          alt=""
-                      />
-                    </motion.div>
+                    <div style={{position: "absolute", top: "19%", left: "60.75%"}}>
+                      <motion.div style={{opacity: opacityEasyControlDropdown, position: "absolute", top: "19%", left: "60.75%", zIndex: '2' }}>
+                        <img
+                            style={{ width: '15vw'}}
+                            src={"/images/_src/easy-controls-dropdown.png"}
+                            alt=""
+                        />
+                      </motion.div>
+                      <div ref={refHiddenBlock} style={{position: "absolute", top: "-1px", left: "0", backgroundColor: '#0A0A07', width: '15.1vw', height: '10vh', display: 'none', zIndex: '1'}}></div>
+                    </div>
 
                     <motion.div style={{opacity: opacityGenerateByImagePopup, position: "absolute", top: "100%", left: "22.5%" }}>
                       <img
@@ -1052,42 +1088,47 @@ export default function Home() {
                       }}>
                     <div className={"space-section-images"}>
 
-                      <motion.div
-                        style={{
-                          width: widthSpaceSection,
-                        }}
-                      >
-                        <img
-                            style={{ width: '100%'}}
-                            ref={refSpaceImg}
-                            src={"/images/_src/Space.webp"}
-                            alt=""
-                        />
-                        <img
-                            style={{ width: '100%', position: 'absolute', left: 0, opacity: 0}}
-                            ref={refGirlImg}
-                            className={'flexibility-section-img'}
-                            src={"/images/_src/flex/anamorphic, close-up, high angle 2.jpg"}
-                            alt=""
-                        />
+                      <motion.div style={{
+                        translateY: transformYSpaceSectionToBottom,
+                      }}>
+                        <motion.div
+                            style={{
+                              translateY: transformYSpaceSectionToTop,
+                              width: widthSpaceSection,
+                            }}
+                        >
+                          <img
+                              style={{ width: '100%'}}
+                              ref={refSpaceImg}
+                              src={"/images/_src/Space.webp"}
+                              alt=""
+                          />
+                          <img
+                              style={{ width: '100%', position: 'absolute', left: 0, opacity: 0}}
+                              ref={refGirlImg}
+                              className={'flexibility-section-img'}
+                              src={"/images/_src/flex/anamorphic, close-up, high angle 2.jpg"}
+                              alt=""
+                          />
 
 
-                        {/*<motion.div style={{*/}
-                        {/*  position: "absolute", top: '40%', left: "105%", width: '365%',*/}
-                        {/*  opacity: zeroOpacityAdvancedToolsTextSection*/}
-                        {/*}}>*/}
-                        {/*  <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>*/}
-                        {/*    <div>*/}
-                        {/*      <h3 className="sec-title">Advanced tools</h3>*/}
-                        {/*      <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even*/}
-                        {/*        better results.</p>*/}
-                        {/*      <div className="interface-sec-3__btn-container">*/}
-                        {/*        <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>*/}
-                        {/*      </div>*/}
-                        {/*    </div>*/}
-                        {/*  </motion.div>*/}
-                        {/*</motion.div>*/}
+                          {/*<motion.div style={{*/}
+                          {/*  position: "absolute", top: '40%', left: "105%", width: '365%',*/}
+                          {/*  opacity: zeroOpacityAdvancedToolsTextSection*/}
+                          {/*}}>*/}
+                          {/*  <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>*/}
+                          {/*    <div>*/}
+                          {/*      <h3 className="sec-title">Advanced tools</h3>*/}
+                          {/*      <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even*/}
+                          {/*        better results.</p>*/}
+                          {/*      <div className="interface-sec-3__btn-container">*/}
+                          {/*        <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>*/}
+                          {/*      </div>*/}
+                          {/*    </div>*/}
+                          {/*  </motion.div>*/}
+                          {/*</motion.div>*/}
 
+                        </motion.div>
                       </motion.div>
                     </div>
 
@@ -1098,12 +1139,23 @@ export default function Home() {
                         translateY: transformYSpaceButtonsSection
                       }}
                     >
-                      <div ref={refSpaceButtons} style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px'}}>
-                        <img style={{marginRight: 'auto'}} src={"/images/_src/animations/edit.png"} alt=""/>
+                      <div ref={refSpaceButtons} style={{display: 'flex', width: '100%', padding: '0 20px', height: '80px', position: 'relative'}}>
+                        <div style={{display: 'flex', gap: '10px', marginRight: 'auto'}}>
+                          {isOpenFullSpaceButtons
+                              ? <img src={"/images/_src/animations/edit-light.png"} alt=""/>
+                              : <img src={"/images/_src/animations/edit.png"} alt=""/>
+                          }
+                          {isOpenFullSpaceButtons && <img src={"/images/_src/animations/resize.png"} alt=""/>}
+                          {isOpenFullSpaceButtons && <img src={"/images/_src/animations/paint.png"} alt=""/>}
+                        </div>
                         <div style={{display: 'flex', gap: '10px'}}>
                           <img src={"/images/_src/animations/arrow-down.png"} alt=""/>
                           <img src={"/images/_src/animations/save.png"} alt=""/>
                         </div>
+                        {isOpenFullSpaceButtons && <div style={{position: "absolute", top: '-300%', left: '53%', scale: '1.3', display: 'flex', alignItems: 'flex-start'}}>
+                          <img style={{marginRight: '30px'}} src={"/images/_src/animations/area.png"} alt=""/>
+                          <img src={"/images/_src/animations/tip.png"} alt=""/>
+                        </div>}
                       </div>
                     </motion.div>
                   </motion.div>
@@ -1112,7 +1164,7 @@ export default function Home() {
 
 
                   <motion.div style={{
-                    position: "absolute", top: 'calc((375vh - 275vh) * 0.9)', left: "65vw", width: '100%',
+                    position: "absolute", top: 'calc(100% - 200px)', left: "65vw", width: '100%',
                     opacity: zeroOpacityAdvancedToolsTextSection
                   }}>
                     <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>
@@ -1136,7 +1188,7 @@ export default function Home() {
                   </motion.div>
 
                   <motion.div style={{opacity: opacityZeroParametersText }}>
-                    <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '37%', left: "10%"}}>
+                    <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '37%', left: "10%", zIndex: '100'}}>
 
                       <div style={{maxWidth: '480px'}}>
                         <h3 className="sec-title">Parameters</h3>
@@ -1172,11 +1224,14 @@ export default function Home() {
                   <motion.div style={{
                     opacity: opacityFlexibilityTextSection,
                     position: "absolute",
-                    top: '75%',
-                    left: "20%",
-                    width: "100%"
+                    top: 'calc(100% - 270px)',
+                    left: "5vw",
+                    width: "30vw",
+                    minWidth: '30vw',
+                    maxWidth: '35vw',
+                    zIndex: "100"
                   }}>
-                    <div>
+                    <div style={{width: '100%'}}>
                       <div className="flexibility-sec__text">
                         <div className="flexibility-sec__text-wrapper">
                           <h2 className="sec-title">Flexibility</h2>
