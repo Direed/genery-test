@@ -16,6 +16,7 @@ import PlanPriceSection from "@/components/components/PlanPriceSection";
 import PromptExamplesSection from "@/components/components/PromptExamplesSection";
 import PreviewsSection from "@/components/components/PreviewsSection";
 import InfographixSection from "@/components/components/InfographixSection";
+import Image from "next/image";
 import DesktopAnimation from "@/components/components/DesktopAnimation";
 import MobileAnimation from "@/components/components/MobileAnimation";
 
@@ -562,7 +563,7 @@ export default function Home() {
 
           <InfographixSection />
           <PreviewsSection />
-          <PromptExamplesSection />
+          <PromptExamplesSection mediaQuery={mediaQuery} mediaQuery750={mediaQuery750}/>
           <PlanPriceSection />
           <ApplicableSection />
           <SignUpSection />
