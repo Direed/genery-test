@@ -10,6 +10,13 @@ const MobileAnimation = () => {
     const refScaleGalleryGenerationSection = useRef(null)
     const refOpacityEasilySwitchSection = useRef(null)
     const refTransformXGenerationButton = useRef(null)
+    const refTransformXGalleryButton = useRef(null)
+    const refZeroOpacityEasilySwitchSection = useRef(null)
+    const refTransformXParametersSection = useRef(null)
+    const refOpacityParametersText = useRef(null)
+
+    const refTransformXEasyControl = useRef(null)
+    const refOpacityEasyControlText = useRef(null)
 
 
 
@@ -94,6 +101,40 @@ const MobileAnimation = () => {
         target: refTransformXGenerationButton,
         offset: ["start end", "end end"]
     })
+
+    const { scrollYProgress: scrollYProgressTransformXGalleryButton } = useScroll({
+        target: refTransformXGalleryButton,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressZeroOpacityEasilySwitchSection } = useScroll({
+        target: refZeroOpacityEasilySwitchSection,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressTransformXParametersSection } = useScroll({
+        target: refTransformXParametersSection,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressOpacityParametersText } = useScroll({
+        target: refOpacityParametersText,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressTransformXEasyControl } = useScroll({
+        target: refTransformXEasyControl,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressOpacityEasyControlText } = useScroll({
+        target: refOpacityEasyControlText,
+        offset: ["start end", "end end"]
+    })
+
+
+
+
 
     const { scrollYProgress: scrollYProgressOpacityLightenDropdownSection } = useScroll({
         target: refOpacityLightenDropdownSection,
@@ -239,9 +280,9 @@ const MobileAnimation = () => {
         ease: circOut
     });
 
-    const opacityEasyControlText = useTransform(scrollYProgressTransformXEasyControlSection, [3, 0], [1, 0],{
-        ease: circOut
-    });
+    // const opacityEasyControlText = useTransform(scrollYProgressTransformXEasyControlSection, [3, 0], [1, 0],{
+    //     ease: circOut
+    // });
 
     const opacityZeroParametersText = useTransform(scrollYProgressTransformXEasyControlSection, [0.5, 0], [0, 1], {
         ease: circOut
@@ -320,6 +361,56 @@ const MobileAnimation = () => {
     });
 
 
+    //Gallery button
+    const transformXGalleryButton = useTransform(scrollYProgressTransformXGalleryButton, [1, 0], ['35vw', '-0vw'],{
+        ease: circOut
+    });
+
+    //Switch text - opacity zero
+    const zeroOpacitySwitchText = useTransform(scrollYProgressZeroOpacityEasilySwitchSection, [1, 0], [0, 1],{
+        ease: circOut
+    });
+
+    //Parameters section
+
+    const transformXParametersSection = useTransform(scrollYProgressTransformXParametersSection, [1, 0], ['-100vw', '0vw'],{
+        ease: circOut
+    });
+
+    const opacityParametersDropdown = useTransform(scrollYProgressTransformXParametersSection, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+    const opacityParametersText = useTransform(scrollYProgressOpacityParametersText, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+
+    //Easy control
+    const transformXEasyControl = useTransform(scrollYProgressTransformXEasyControl, [1, 0], ['-105vw', '-0vw'],{
+        ease: circOut
+    });
+
+    const transformXEasyControlTitle = useTransform(scrollYProgressTransformXEasyControl, [1, 0], ['105vw', '0vw'],{
+        ease: circOut
+    });
+
+    const transformXEasyControlFooter = useTransform(scrollYProgressTransformXEasyControl, [1, 0], ['105vw', '0vw'],{
+        ease: circOut
+    });
+
+    const zeroOpacityParametersText = useTransform(scrollYProgressTransformXEasyControl, [0.5, 0], [0, 1],{
+        ease: circOut
+    });
+
+    const opacityEasyControl = useTransform(scrollYProgressTransformXEasyControl, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+    const opacityEasyControlText = useTransform(scrollYProgressOpacityEasyControlText, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
 
     scrollYProgressSpaceSection.on('change', value => {
         refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
@@ -359,18 +450,18 @@ const MobileAnimation = () => {
         }
     })
 
-    scrollYProgressOpacityAdvancedToolsTextSection.on('change', value => {
-        refGirlImg.current.style.opacity = 0
-        refGirlImg.current.style.filter = `blur(${value}px)`
-    })
-
-    scrollYProgressTransformXEasyControlSection.on('change', value => {
-        if(value === 0) {
-            refHiddenBlock.current.style.display = 'none'
-        } else {
-            refHiddenBlock.current.style.display = 'block'
-        }
-    })
+    // scrollYProgressOpacityAdvancedToolsTextSection.on('change', value => {
+    //     refGirlImg.current.style.opacity = 0
+    //     refGirlImg.current.style.filter = `blur(${value}px)`
+    // })
+    //
+    // scrollYProgressTransformXEasyControlSection.on('change', value => {
+    //     if(value === 0) {
+    //         refHiddenBlock.current.style.display = 'none'
+    //     } else {
+    //         refHiddenBlock.current.style.display = 'block'
+    //     }
+    // })
 
 
     return (
@@ -380,6 +471,17 @@ const MobileAnimation = () => {
             <div style={{ height: '50vh', top: '0vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
             <div style={{ height: '50vh', top: '30vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
             <div style={{ height: '50vh', top: '50vh', position: 'absolute' }} ref={refTransformXGenerationButton} />
+            <div style={{ height: '50vh', top: '110vh', position: 'absolute' }} ref={refTransformXGalleryButton} />
+            <div style={{ height: '50vh', top: '115vh', position: 'absolute' }} ref={refZeroOpacityEasilySwitchSection} />
+            <div style={{ height: '50vh', top: '120vh', position: 'absolute' }} ref={refTransformXParametersSection} />
+            <div style={{ height: '50vh', top: '180vh', position: 'absolute' }} ref={refOpacityParametersText} />
+
+            <div style={{ height: '50vh', top: '230vh', position: 'absolute' }} ref={refTransformXEasyControl} />
+            <div style={{ height: '50vh', top: '280vh', position: 'absolute' }} ref={refOpacityEasyControlText} />
+
+
+
+
 
             <div style={{ height: '50vh', top: '170vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
             <div style={{ height: '50vh', top: '220vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
@@ -396,9 +498,10 @@ const MobileAnimation = () => {
                 <motion.div
                     className={"space-section-container"}
                     style={{
-                        // translateX: transformXSpaceSection,
+                        translateX: transformXParametersSection,
                         width: widthSpaceSection,
                         position: 'relative'
+
                     }}
                 >
                     <motion.img
@@ -408,7 +511,7 @@ const MobileAnimation = () => {
                         alt=""
                     />
                 </motion.div>
-                <motion.div style={{}}>
+                <motion.div style={{ translateX: transformXParametersSection }}>
                     <motion.div style={{ scale: scaleGalleryGenerationSection, width: '100%', position: 'absolute', left: '17.5vw', top: transformYGalleryGenerationSection, maxWidth: '65vw', height: '50px', borderRadius: '100px', background: 'rgba(255, 255, 255, 0.05)', alignItems: 'center'}}>
                         <div style={{position: 'relative', display: 'flex', width: '100%', justifyContent: 'space-between', height: '100%', zIndex: '2', gap: '20px'}}>
                             <div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -418,12 +521,64 @@ const MobileAnimation = () => {
                                 Generation
                             </div>
                         </div>
-                        <motion.div style={{position: 'absolute', translateX: transformXGenerationButton, top: '7.5%', zIndex: '1', width: '100%'}}>
-                            <div style={{position: 'absolute', height: '42px', width: '100%', maxWidth: 'calc(32.5vw - 20px)', background: 'linear-gradient(99deg, #92ACA1 8.37%, #667770 89.81%)', borderRadius: '100px', top: '7.5%', zIndex: '1', right: '2.5%'}} />
+                        <motion.div style={{position: 'absolute', translateX: transformXGalleryButton, top: '7.5%', zIndex: '1', width: '100%'}}>
+                            <motion.div style={{position: 'absolute', translateX: transformXGenerationButton, top: '7.5%', zIndex: '1', width: '100%'}}>
+                                <div style={{position: 'absolute', height: '42px', width: '100%', maxWidth: 'calc(32.5vw - 20px)', background: 'linear-gradient(99deg, #92ACA1 8.37%, #667770 89.81%)', borderRadius: '100px', top: '7.5%', zIndex: '1', right: '2.5%'}} />
+                            </motion.div>
                         </motion.div>
                     </motion.div>
-                    <motion.div style={{position: 'absolute', top: '40vh', left: '7.5vw', opacity: opacityEasilySwitchSection}}>
-                        <h2 style={{fontSize: '40px'}} className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                    <motion.div style={{opacity: zeroOpacitySwitchText}}>
+                        <motion.div style={{position: 'absolute', top: '40vh', left: '7.5vw', opacity: opacityEasilySwitchSection}}>
+                            <h2 style={{fontSize: '40px'}} className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
+                        </motion.div>
+                    </motion.div>
+                </motion.div>
+
+
+                <motion.div style={{position: 'absolute', left: '100vw', height: '100vh', translateX: transformXParametersSection, padding: '50px 30px'}}>
+                    <motion.div style={{translateX: transformXEasyControl}}>
+                    <motion.div style={{paddingBottom: '30px', width: 'calc(100vw - 60px)', textAlign: 'center', translateX: transformXEasyControlTitle, position: 'relative'}}>
+                        <motion.div style={{opacity: zeroOpacityParametersText}}>
+                            <motion.h3 style={{opacity: opacityParametersText}} className="sec-title">Parameters</motion.h3>
+                        </motion.div>
+                        <motion.div style={{width: '100%', position: 'absolute', top: '0px'}}>
+                            <motion.h3 style={{opacity: opacityEasyControlText}} className="sec-title">Easy control</motion.h3>
+                        </motion.div>
+                    </motion.div>
+                    <motion.div style={{position: "relative", zIndex: 3, opacity: opacityParametersDropdown}}>
+                        <img src={"/images/_src/animations/search-bar-mobile.png"} />
+                        <motion.img
+                            style={{width: '80vw', position: "absolute", top: '7.5vh', left: 0, zIndex: 2, opacity: zeroOpacityParametersText}}
+                            src={"/images/_src/animations/lighten-dropdown.png"}
+                        />
+                        <motion.img
+                            style={{ width: '27.5vw', position: "absolute", top: '1.4vh', left: '132.5vw', zIndex: 2, opacity: opacityEasyControl}}
+                            src={"/images/_src/easy-controls-dropdown.png"}
+                            alt=""
+                        />
+                    </motion.div>
+                    <img
+                        style={{ zIndex: '1', width: '100%', marginTop: '10px', filter: 'blur(8px)'}}
+                        src={"/images/_src/Space.webp"}
+                        alt=""
+                    />
+                        <motion.div style={{position: 'absolute', top: '72.5vh', width: '80vw', opacity: opacityParametersText, translateX: transformXEasyControlFooter}}>
+                            <motion.div style={{opacity: zeroOpacityParametersText}}>
+                                <p style={{position: "absolute", textAlign: "center", top: '0'}} className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
+                                    our artificial intelligence was trained.
+                                </p>
+                            </motion.div>
+                        </motion.div>
+                        <motion.div style={{position: 'absolute', top: '60vh', width: '100vw', padding: '0px 50px', left: '100vw', opacity: opacityEasyControlText}}>
+                            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <p style={{textAlign: "center", top: '0'}} className="sec-subtitle">
+                                    Easily manage parameters directly from the search bar
+                                </p>
+                                <div className="interface-sec-3__btn-container">
+                                    <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                                </div>
+                            </motion.div>
+                        </motion.div>
                     </motion.div>
                 </motion.div>
 
