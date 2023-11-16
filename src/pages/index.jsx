@@ -2,7 +2,7 @@
 
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import { motion, circOut, useTransform, useScroll, easeIn } from "framer-motion";
 import Gallery from "@/components/gallery";
@@ -560,6 +560,58 @@ export default function Home() {
           <GenerationSection />
 
           {mediaQuery750?.matches ? <MobileAnimation /> : <DesktopAnimation />}
+          {mediaQuery750?.matches && (
+              <div style={{width: '100%', padding: '0 30px', marginTop: '200px'}}>
+                <div className="flexibility-sec__text">
+                  <div style={{flexDirection: 'column', alignItems: 'center'}} className="flexibility-sec__text-wrapper">
+                    <h2 className="sec-title">Flexibility</h2>
+                    <p style={{textAlign: 'center', marginBottom: '20px'}} className="sec-subtitle">You can test the flexibility of our AI by changing parameters
+                    </p>
+                  </div>
+
+                  <img
+                      style={{ width: '100%', left: 0}}
+                      className={'flexibility-section-img'}
+                      src={"/images/_src/flex/anamorphic, close-up, high angle 2.jpg"}
+                      alt=""
+                  />
+
+                  <div className="flexibility-sec__filtr">
+                    <div className="flexibility-sec__filtr-rov1">
+                      <span className="flexibility-sec__filtr-number">01</span>
+                      <span className="flexibility-sec__filtr-line"></span>
+                    </div>
+
+                    <div className="flexibility-sec__filtr-row2 filtr-row2-v1">
+                      <div className="flexibility-sec__btn flexibility-sec__btn_active">Anamorphic lens</div>
+                      <div className="flexibility-sec__btn">Spherical lens</div>
+                    </div>
+
+                    <div className="flexibility-sec__filtr-rov1">
+                      <span className="flexibility-sec__filtr-number">02</span>
+                      <span className="flexibility-sec__filtr-line"></span>
+                    </div>
+
+                    <div className="flexibility-sec__filtr-row2 filtr-row2-v2">
+                      <div className="flexibility-sec__btn">Extreme close</div>
+                      <div className="flexibility-sec__btn flexibility-sec__btn_active">Close-up</div>
+                      <div className="flexibility-sec__btn">Medium</div>
+                    </div>
+
+                    <div className="flexibility-sec__filtr-rov1">
+                      <span className="flexibility-sec__filtr-number">03</span>
+                      <span className="flexibility-sec__filtr-line"></span>
+                    </div>
+
+                    <div className="flexibility-sec__filtr-row2 filtr-row2-v3">
+                      <div className="flexibility-sec__btn ">Hight angle</div>
+                      <div className="flexibility-sec__btn">Low angle</div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          )}
 
           <InfographixSection />
           <PreviewsSection />

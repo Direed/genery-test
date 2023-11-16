@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {circOut, motion, useScroll, useTransform} from "framer-motion";
 import Image from "next/image";
 import useVerticalScroll from "@/hooks/useVerticalScroll";
@@ -17,6 +17,15 @@ const MobileAnimation = () => {
 
     const refTransformXEasyControl = useRef(null)
     const refOpacityEasyControlText = useRef(null)
+
+    const refTransformXGeneratedByImage = useRef(null)
+    const refOpacityGeneratedByImageText = useRef(null)
+
+    const refWidthAdvancedTools = useRef(null)
+    const refAdvancedToolsPicture = useRef(null)
+    const [widthAdvancedToolsPicture, setWidthAdvancedToolsPicture] = useState(null);
+    const refOpacityAdvancedToolsFooter = useRef(null)
+    const refOpacityAdvancedToolsText = useRef(null)
 
 
 
@@ -65,6 +74,10 @@ const MobileAnimation = () => {
         // element.style.translateY = `${updatedTransformY}%`
         console.log('value', value)
     })
+
+    useEffect(() => {
+        setWidthAdvancedToolsPicture(refAdvancedToolsPicture.current.offsetWidth)
+    }, [])
 
     // x.on('change', (value) => {
     //
@@ -129,6 +142,33 @@ const MobileAnimation = () => {
 
     const { scrollYProgress: scrollYProgressOpacityEasyControlText } = useScroll({
         target: refOpacityEasyControlText,
+        offset: ["start end", "end end"]
+    })
+
+
+    const { scrollYProgress: scrollYProgressTransformXGeneratedByImage } = useScroll({
+        target: refTransformXGeneratedByImage,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressOpacityGeneratedByImageText } = useScroll({
+        target: refOpacityGeneratedByImageText,
+        offset: ["start end", "end end"]
+    })
+
+
+    const { scrollYProgress: scrollYProgressWidthAdvancedTools } = useScroll({
+        target: refWidthAdvancedTools,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressOpacityAdvancedToolsFooter } = useScroll({
+        target: refOpacityAdvancedToolsFooter,
+        offset: ["start end", "end end"]
+    })
+
+    const { scrollYProgress: scrollYProgressOpacityAdvancedToolsText } = useScroll({
+        target: refOpacityAdvancedToolsText,
         offset: ["start end", "end end"]
     })
 
@@ -298,13 +338,13 @@ const MobileAnimation = () => {
     });
 
     //generate by image text
-    const opacityGenerateByImageText = useTransform(scrollYProgressTransformXEasyControlSection, [3.5, 0], [3, 0],{
-        ease: circOut
-    });
+    // const opacityGenerateByImageText = useTransform(scrollYProgressTransformXEasyControlSection, [3.5, 0], [3, 0],{
+    //     ease: circOut
+    // });
 
-    const zeroOpacityGenerateByImageText = useTransform(scrollYProgressScaleAdvancedToolsSection, [0.5, 0], [0, 1],{
-        ease: circOut
-    });
+    // const zeroOpacityGenerateByImageText = useTransform(scrollYProgressScaleAdvancedToolsSection, [0.5, 0], [0, 1],{
+    //     ease: circOut
+    // });
 
     //advanced tools
     const widthAdvancedToolsSection = useTransform(scrollYProgressScaleAdvancedToolsSection, [1, 0], ['50%', '100%'],{
@@ -412,6 +452,91 @@ const MobileAnimation = () => {
     });
 
 
+    //Generate by image
+    const transformXGenerateByImage = useTransform(scrollYProgressTransformXGeneratedByImage, [1, 0], ['105vw', '0%'],{
+        ease: circOut
+    });
+
+    const transformXGenerateByImageTitle = useTransform(scrollYProgressTransformXGeneratedByImage, [1, 0], ['-105vw', '0vw'],{
+        ease: circOut
+    });
+
+    const transformXGenerateByImageFooter = useTransform(scrollYProgressTransformXGeneratedByImage, [1, 0], ['-105vw', '0vw'],{
+        ease: circOut
+    });
+
+    const zeroOpacityEasyControlText = useTransform(scrollYProgressTransformXGeneratedByImage, [0.5, 0], [0, 1],{
+        ease: circOut
+    });
+
+    const opacityGenerateByImage = useTransform(scrollYProgressTransformXGeneratedByImage, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+    const opacityGenerateByImageText = useTransform(scrollYProgressOpacityGeneratedByImageText, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+    //Advanced tools
+    const widthAdvancedTools = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], ['37.5%', '100%'],{
+        ease: circOut
+    });
+
+    const blurAdvancedTools = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], ['0px', '8px'],{
+        ease: circOut
+    });
+
+    const transformYAdvancedToolsNavBar = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], ['-100vh', '0vh'],{
+        ease: circOut
+    });
+
+    const transformXAdvancedToolsNavBar = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], ['-35%', '0%'],{
+        ease: circOut
+    });
+
+    const widthAdvancedToolsNavBar = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], ['37.5%', '100%'],{
+        ease: circOut
+    });
+
+    const zeroOpacityAdvancedToolsNavBar = useTransform(scrollYProgressWidthAdvancedTools, [0.1, 0], [0, 1],{
+        ease: circOut
+    });
+
+    const widthAdvancedToolsFooter= useTransform(scrollYProgressOpacityAdvancedToolsFooter, [1, 0], ['37.5%', '100%'],{
+        ease: circOut
+    });
+
+    const opacityAdvancedToolsFooter = useTransform(scrollYProgressOpacityAdvancedToolsFooter, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+    const zeroOpacityGenerateByImageText = useTransform(scrollYProgressWidthAdvancedTools, [1, 0], [0, 1],{
+        ease: circOut
+    });
+
+    const opacityAdvancedToolsText = useTransform(scrollYProgressOpacityAdvancedToolsText, [1, 0], [1, 0],{
+        ease: circOut
+    });
+
+
+
+    scrollYProgressWidthAdvancedTools.on('change', value => {
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+        console.log(value, 'value')
+        console.log(refAdvancedToolsPicture.current.style.width, 'refAdvancedToolsPicture.current.style.width')
+        console.log(refAdvancedToolsPicture.current.offsetWidth, 'refAdvancedToolsPicture.current.offsetWidth')
+        console.log(widthAdvancedToolsPicture, 'widthAdvancedToolsPicture')
+
+
+
+        const width = ((vw - 60) / (value + widthAdvancedToolsPicture));
+        refAdvancedToolsPicture.current.style.width = `${width}px`
+        refAdvancedToolsPicture.current.style.filter = `blur(${(1 - value) * 8}px)`
+    })
+
+
+
+
     scrollYProgressSpaceSection.on('change', value => {
         refSpaceImg.current.style.filter = `blur(${(1 - value) * 40}px)`
     })
@@ -420,17 +545,17 @@ const MobileAnimation = () => {
         refSpaceImg.current.style.filter = `blur(${value * 40}px)`
     })
 
-    scrollYProgressScaleFlexibilitySection.on('change', value => {
-        console.log(value, 'value')
-        refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
-        if(value > 0.10 ) {
-            refGirlImg.current.style.opacity = 1
-            refGirlImg.current.style.filter = `blur(${(1 - value) * 1000}px)`
-        } else {
-            refGirlImg.current.style.opacity = 0.4
-            refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
-        }
-    })
+    // scrollYProgressScaleFlexibilitySection.on('change', value => {
+    //     console.log(value, 'value')
+    //     refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
+    //     if(value > 0.10 ) {
+    //         refGirlImg.current.style.opacity = 1
+    //         refGirlImg.current.style.filter = `blur(${(1 - value) * 1000}px)`
+    //     } else {
+    //         refGirlImg.current.style.opacity = 0.4
+    //         refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
+    //     }
+    // })
 
     scrollYProgressScaleGalleryGenerationSection.on('change', value => {
         if(value === 0) {
@@ -478,6 +603,15 @@ const MobileAnimation = () => {
 
             <div style={{ height: '50vh', top: '230vh', position: 'absolute' }} ref={refTransformXEasyControl} />
             <div style={{ height: '50vh', top: '280vh', position: 'absolute' }} ref={refOpacityEasyControlText} />
+
+
+            <div style={{ height: '50vh', top: '330vh', position: 'absolute' }} ref={refTransformXGeneratedByImage} />
+            <div style={{ height: '50vh', top: '380vh', position: 'absolute' }} ref={refOpacityGeneratedByImageText} />
+
+            <div style={{ height: '50vh', top: '430vh', position: 'absolute' }} ref={refWidthAdvancedTools} />
+            <div style={{ height: '25vh', top: '455vh', position: 'absolute' }} ref={refOpacityAdvancedToolsFooter} />
+            <div style={{ height: '50vh', top: '490vh', position: 'absolute' }} ref={refOpacityAdvancedToolsText} />
+
 
 
 
@@ -528,7 +662,7 @@ const MobileAnimation = () => {
                         </motion.div>
                     </motion.div>
                     <motion.div style={{opacity: zeroOpacitySwitchText}}>
-                        <motion.div style={{position: 'absolute', top: '40vh', left: '7.5vw', opacity: opacityEasilySwitchSection}}>
+                        <motion.div style={{position: 'absolute', top: '40vh', width: '100vw', opacity: opacityEasilySwitchSection}}>
                             <h2 style={{fontSize: '40px'}} className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
                         </motion.div>
                     </motion.div>
@@ -536,32 +670,66 @@ const MobileAnimation = () => {
 
 
                 <motion.div style={{position: 'absolute', left: '100vw', height: '100vh', translateX: transformXParametersSection, padding: '50px 30px'}}>
+                    <motion.div style={{translateX: transformXGenerateByImage}}>
                     <motion.div style={{translateX: transformXEasyControl}}>
-                    <motion.div style={{paddingBottom: '30px', width: 'calc(100vw - 60px)', textAlign: 'center', translateX: transformXEasyControlTitle, position: 'relative'}}>
-                        <motion.div style={{opacity: zeroOpacityParametersText}}>
-                            <motion.h3 style={{opacity: opacityParametersText}} className="sec-title">Parameters</motion.h3>
+                        <motion.div style={{translateX: transformXGenerateByImageTitle}}>
+                            <motion.div style={{paddingBottom: '30px', width: 'calc(100vw - 60px)', textAlign: 'center', translateX: transformXEasyControlTitle, position: 'relative'}}>
+                                <motion.div style={{opacity: zeroOpacityParametersText}}>
+                                    <motion.h3 style={{opacity: opacityParametersText}} className="sec-title">Parameters</motion.h3>
+                                </motion.div>
+                                <motion.div style={{width: '100%', position: 'absolute', top: '0px', opacity: zeroOpacityEasyControlText}}>
+                                    <motion.h3 style={{opacity: opacityEasyControlText}} className="sec-title">Easy control</motion.h3>
+                                </motion.div>
+                                <motion.div style={{width: '100%', position: 'absolute', top: '0px', opacity: zeroOpacityGenerateByImageText}}>
+                                    <motion.h3 style={{opacity: opacityGenerateByImageText}} className="sec-title">Generate by image</motion.h3>
+                                </motion.div>
+                                <motion.div style={{width: '100%', position: 'absolute', top: '0px'}}>
+                                    <motion.h3 style={{opacity: opacityAdvancedToolsText}} className="sec-title">Advanced tools</motion.h3>
+                                </motion.div>
+                            </motion.div>
                         </motion.div>
-                        <motion.div style={{width: '100%', position: 'absolute', top: '0px'}}>
-                            <motion.h3 style={{opacity: opacityEasyControlText}} className="sec-title">Easy control</motion.h3>
-                        </motion.div>
-                    </motion.div>
                     <motion.div style={{position: "relative", zIndex: 3, opacity: opacityParametersDropdown}}>
-                        <img src={"/images/_src/animations/search-bar-mobile.png"} />
+                        <motion.img style={{scale: widthAdvancedToolsNavBar, opacity: zeroOpacityAdvancedToolsNavBar, translateY: transformYAdvancedToolsNavBar, translateX: transformXAdvancedToolsNavBar}} src={"/images/_src/animations/search-bar-mobile.png"} />
                         <motion.img
                             style={{width: '80vw', position: "absolute", top: '7.5vh', left: 0, zIndex: 2, opacity: zeroOpacityParametersText}}
                             src={"/images/_src/animations/lighten-dropdown.png"}
                         />
-                        <motion.img
-                            style={{ width: '27.5vw', position: "absolute", top: '1.4vh', left: '132.5vw', zIndex: 2, opacity: opacityEasyControl}}
-                            src={"/images/_src/easy-controls-dropdown.png"}
-                            alt=""
-                        />
+                        <motion.div style={{opacity: zeroOpacityEasyControlText}}>
+                            <motion.img
+                                style={{ width: '27.5vw', position: "absolute", top: '1.4vh', left: '59%', zIndex: 2, opacity: opacityEasyControl}}
+                                src={"/images/_src/easy-controls-dropdown.png"}
+                                alt=""
+                            />
+                        </motion.div>
+                        <motion.div style={{opacity: zeroOpacityAdvancedToolsNavBar}}>
+                            <motion.img
+                                style={{ width: '80vw', position: "absolute", top: '7.5vh', zIndex: 2, opacity: opacityGenerateByImage, scale: widthAdvancedToolsNavBar, translateY: transformYAdvancedToolsNavBar, translateX: transformXAdvancedToolsNavBar}}
+                                src={"/images/_src/generate-by-image-popup.webp"}
+                                alt=""
+                            />
+                        </motion.div>
                     </motion.div>
-                    <img
-                        style={{ zIndex: '1', width: '100%', marginTop: '10px', filter: 'blur(8px)'}}
+                    <motion.img
+                        ref={refAdvancedToolsPicture}
+                        style={{ zIndex: '1', width: widthAdvancedTools, marginTop: '10px', filter: 'blur(8px)'}}
                         src={"/images/_src/Space.webp"}
                         alt=""
                     />
+                        <motion.div style={{display: 'flex', width: widthAdvancedToolsFooter, position: 'relative', opacity: opacityAdvancedToolsFooter}}>
+                            <div style={{display: 'flex', gap: '10px', marginRight: 'auto'}}>
+                                <img style={{width: '30px', height: '30px'}} src={"/images/_src/animations/edit-light.png"} alt=""/>
+                                <img style={{width: '30px', height: '30px'}} src={"/images/_src/animations/resize.png"} alt=""/>
+                                <img style={{width: '30px', height: '30px'}} src={"/images/_src/animations/paint.png"} alt=""/>
+                            </div>
+                            <div style={{display: 'flex', gap: '10px'}}>
+                                <img style={{width: '30px', height: '30px'}} src={"/images/_src/animations/arrow-down.png"} alt=""/>
+                                <img style={{width: '30px', height: '30px'}} src={"/images/_src/animations/save.png"} alt=""/>
+                            </div>
+                            <div style={{position: "absolute", top: '-465%', left: '45%', display: 'flex', flexDirection: 'column'}}>
+                                <img style={{height: '30px'}} src={"/images/_src/animations/tip.png"} alt=""/>
+                                <img style={{width: '60px', marginTop: '10px'}} src={"/images/_src/animations/area.png"} alt=""/>
+                            </div>
+                        </motion.div>
                         <motion.div style={{position: 'absolute', top: '72.5vh', width: '80vw', opacity: opacityParametersText, translateX: transformXEasyControlFooter}}>
                             <motion.div style={{opacity: zeroOpacityParametersText}}>
                                 <p style={{position: "absolute", textAlign: "center", top: '0'}} className="sec-subtitle">You can use the cinematic parameters we have prepared, on which
@@ -569,8 +737,8 @@ const MobileAnimation = () => {
                                 </p>
                             </motion.div>
                         </motion.div>
-                        <motion.div style={{position: 'absolute', top: '60vh', width: '100vw', padding: '0px 50px', left: '100vw', opacity: opacityEasyControlText}}>
-                            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                        <motion.div style={{position: 'absolute', top: '60vh', width: '100vw', padding: '0px 50px', left: '100vw', opacity: opacityEasyControlText, translateX: transformXGenerateByImageFooter}}>
+                            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: zeroOpacityEasyControlText}}>
                                 <p style={{textAlign: "center", top: '0'}} className="sec-subtitle">
                                     Easily manage parameters directly from the search bar
                                 </p>
@@ -579,10 +747,27 @@ const MobileAnimation = () => {
                                 </div>
                             </motion.div>
                         </motion.div>
+                        <motion.div style={{position: 'absolute', top: '60vh', width: '80vw', opacity: opacityGenerateByImageText}}>
+                            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: zeroOpacityGenerateByImageText}}>
+                                <p style={{textAlign: "center", top: '0'}} className="sec-subtitle">You can upload your pictures or any picture from the Internet to
+                                    generate similar ones, or improve and edit the image</p>
+                                <div className="interface-sec-3__btn-container">
+                                    <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                        <motion.div style={{position: 'absolute', top: '60vh', width: '80vw', opacity: opacityAdvancedToolsText}}>
+                            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <p style={{textAlign: "center", top: '0'}} className="sec-subtitle">You can edit your picture using advanced tools to achieve even
+                                    better results.</p>
+                                <div className="interface-sec-3__btn-container">
+                                    <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
                     </motion.div>
                 </motion.div>
-
-
             </div>
         </section>
     );
