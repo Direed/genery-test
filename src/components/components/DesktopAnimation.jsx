@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {circOut, motion, useScroll, useTransform} from "framer-motion";
 import useVerticalScroll from "@/hooks/useVerticalScroll";
 
@@ -25,11 +25,55 @@ const DesktopAnimation = () => {
     const refSpaceHeader = useRef(null)
     const refHiddenBlock = useRef(null)
 
+
+    const refLastScrollTop = useRef(0);
+
     const y = useVerticalScroll({ref: refScaleSpaceSection, limit: 100, springConfig: {mass: 0.01, stiffness: 2, damping: 1 }})
     const x = useVerticalScroll({ref: refScaleGalleryGenerationSection, limit: 100, springConfig: {mass: 0.01, stiffness: 2, damping: 1 }})
-    useVerticalScroll(refScaleGalleryGenerationSection)
-    useVerticalScroll(refOpacityEasilySwitchSection)
-    console.log('y', y)
+    const opacityEasilySwitch = useVerticalScroll({ref: refOpacityEasilySwitchSection, limit: 100, springConfig: {mass: 0.01}})
+    const z = useVerticalScroll({ref: refOpacityLightenDropdownSection, limit: 100, springConfig: {mass: 0.01}})
+    const transformXEasyControl = useVerticalScroll({ref: refTransformXEasyControlSection, limit: 100, springConfig: {mass: 0.01}})
+    const transformXGenerateByImage = useVerticalScroll({ref: refTransformXGenerateByImageSection, limit: 100, springConfig: {mass: 0.01}})
+    const scaleFlexibility = useVerticalScroll({ref: refScaleFlexibilitySection, limit: 100, springConfig: {mass: 0.01}})
+
+    // console.log('y', y)
+
+
+    scaleFlexibility.on('change', (value) => {
+        // console.log(value, 'value')
+
+        const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedTransformX = getTransformValue(0, 42)
+
+        const transformXAdvancedToolsInFlexibility = document.querySelector('.transform-x-advanced-tools-in-flexibility')
+
+        transformXAdvancedToolsInFlexibility.style.transform = `translateX(${updatedTransformX}%) translateY(0px) translateZ(0px)`
+    })
+
+
+    transformXGenerateByImage.on('change', (value) => {
+        // console.log(value, 'value')
+
+        const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedTransformX = getTransformValue(0, 165)
+
+        const transformXGenerateByImageSection = document.querySelector('.transform-x-generate-by-image-sec')
+
+        transformXGenerateByImageSection.style.transform = `translateX(${updatedTransformX}%) translateY(0px) translateZ(0px)`
+    })
+
+    transformXEasyControl.on('change', (value) => {
+        // console.log(value, 'value')
+
+        const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedTransformX = getTransformValue(0, -165)
+
+        const transformXEasyControlSection = document.querySelector('.transform-x-easy-control-sec')
+
+        transformXEasyControlSection.style.transform = `translateX(${updatedTransformX}%)  translateZ(0px)`
+    })
+
+
     y.on('change', (value) => {
 
         const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
@@ -51,10 +95,11 @@ const DesktopAnimation = () => {
         buttonsElement.style.transform = `translateX(0px) translateY(${updatedButtonsTransformY}vh) scale(${updatedButtonsScale}) translateY(0px)`
 
         // element.style.translateY = `${updatedTransformY}%`
-        console.log('value', value)
+        // console.log('value', value)
     })
 
     x.on('change', (value) => {
+        // console.log(value, 'value')
 
         const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
         const updatedWidth = getTransformValue(100, 360)
@@ -62,6 +107,38 @@ const DesktopAnimation = () => {
         const headerWidthContainer = document.querySelector('.header-width-container')
 
         headerWidthContainer.style.width = `${updatedWidth}%`
+
+        if(value === 0) {
+            refSpaceImg.current.style.opacity = 1
+        } else {
+            if((1 - ((-value) / 100)) > 0.4) refSpaceImg.current.style.opacity = 1 - (-value) / 100;
+        }
+    })
+
+    opacityEasilySwitch.on('change', (value) => {
+        console.log(value, 'value')
+
+        const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedOpacity = getTransformValue(0, 1)
+        console.log(updatedOpacity, 'updatedOpacity')
+
+        const opacityEasilySwitch = document.querySelector('.opacity-easily-switch')
+
+
+        opacityEasilySwitch.style.opacity = `${updatedOpacity}`
+
+    })
+
+    z.on('change', (value) => {
+        console.log(value, 'value')
+
+        const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedWidth = getTransformValue(100, 50)
+        console.log(updatedWidth, 'updatedWidth')
+
+        const widthLightenDropdownSection = document.querySelector('.width-lighten-dropdown-sec')
+
+        widthLightenDropdownSection.style.width = `${updatedWidth}%`
     })
 
     const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
@@ -301,7 +378,7 @@ const DesktopAnimation = () => {
     })
 
     scrollYProgressScaleFlexibilitySection.on('change', value => {
-        console.log(value, 'value')
+        // console.log(value, 'value')
         refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
         if(value > 0.10 ) {
             refGirlImg.current.style.opacity = 1
@@ -312,13 +389,13 @@ const DesktopAnimation = () => {
         }
     })
 
-    scrollYProgressScaleGalleryGenerationSection.on('change', value => {
-        if(value === 0) {
-            refSpaceImg.current.style.opacity = 1
-        } else {
-            if((1 - value) > 0.4) refSpaceImg.current.style.opacity = 1 - value;
-        }
-    })
+    // scrollYProgressScaleGalleryGenerationSection.on('change', value => {
+    //     if(value === 0) {
+    //         refSpaceImg.current.style.opacity = 1
+    //     } else {
+    //         if((1 - value) > 0.4) refSpaceImg.current.style.opacity = 1 - value;
+    //     }
+    // })
 
     scrollYProgressScaleAdvancedToolsSection.on('change', value => {
         if(value <= 0.6) {
@@ -343,38 +420,169 @@ const DesktopAnimation = () => {
         }
     })
 
+    const scrollingToPosition = (event) => {
+        const firstAnimation = document.querySelector('#first-animation');
+        const finishFirstAnimation = document.querySelector('#finish-first-animation');
+        const secondAnimation = document.querySelector('#second-animation');
+        const finishSecondAnimation = document.querySelector('#finish-second-animation');
+        const thirdAnimation = document.querySelector('#third-animation');
+        const finishThirdAnimation = document.querySelector('#finish-third-animation');
+        const fourthAnimation = document.querySelector('#fourth-animation');
+        const fifthAnimation = document.querySelector('#fifth-animation');
+        const sixthAnimation = document.querySelector('#sixth-animation');
+        const seventhAnimation = document.querySelector('#seventh-animation');
+        const eighthAnimation = document.querySelector('#eighth-animation');
+
+        console.log(firstAnimation.getBoundingClientRect(), 'firstAnimation.getBoundingClientRect()')
+
+
+
+        var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+        if (st > refLastScrollTop.current) {
+            // downscroll code
+            console.log('downscroll code')
+
+            //conditions for first animation
+            if(window.scrollY > firstAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < firstAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                secondAnimation.scrollIntoView()
+            }
+
+            //conditions for second animation
+            if(window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < secondAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                finishSecondAnimation.scrollIntoView()
+            }
+
+            //conditions for third animation
+            if(window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < thirdAnimation.getBoundingClientRect().top + window.scrollY + 10) {
+                fourthAnimation.scrollIntoView()
+            }
+
+            //conditions for fourth animation
+            if(window.scrollY > fourthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                fifthAnimation.scrollIntoView()
+            }
+
+            //conditions for fifth animation
+            if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                sixthAnimation.scrollIntoView()
+            }
+
+            //conditions for sixth animation
+            if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                seventhAnimation.scrollIntoView()
+            }
+
+            //conditions for seventh animation
+            if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                eighthAnimation.scrollIntoView()
+            }
+
+
+
+        } else if (st < refLastScrollTop.current) {
+            // upscroll code
+            console.log('upscroll code')
+
+            //conditions for first animation
+            if(window.scrollY < finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > firstAnimation.getBoundingClientRect().bottom + window.scrollY) {
+                firstAnimation.scrollIntoView()
+            }
+
+            //conditions for second animation
+            if(window.scrollY < finishSecondAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 300) {
+                secondAnimation.scrollIntoView()
+            }
+
+            //conditions for third animation
+            if(window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY && window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY + 300) {
+                thirdAnimation.scrollIntoView()
+            }
+
+            //conditions for fourth animation
+            if(window.scrollY > fourthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                fifthAnimation.scrollIntoView()
+            }
+
+            //conditions for fifth animation
+            if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                sixthAnimation.scrollIntoView()
+            }
+
+            //conditions for sixth animation
+            if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                seventhAnimation.scrollIntoView()
+            }
+
+            //conditions for seventh animation
+            if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+                eighthAnimation.scrollIntoView()
+            }
+
+
+        } // else was horizontal scroll
+        refLastScrollTop.current = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+
+
+        console.log('Current scroll from the top: ', window.pageYOffset)
+        console.log('window.scrollY', window.scrollY)
+
+        console.log(firstAnimation.getBoundingClientRect().top + window.scrollY, 'firstAnimation.getBoundingClientRect().top + window.scrollY')
+        console.log(finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY, 'finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY')
+
+        console.log(secondAnimation.getBoundingClientRect().top + window.scrollY, 'secondAnimation.getBoundingClientRect().top + window.scrollY')
+        console.log(thirdAnimation.getBoundingClientRect().top + window.scrollY, 'thirdAnimation.getBoundingClientRect().top + window.scrollY')
+
+
+
+        // console.log(firstAnimation.offsetTop, 'firstAnimation.offsetTop')
+        // console.log(secondAnimation.offsetTop, 'secondAnimation.offsetTop')
+        // console.log(thirdAnimation.offsetTop, 'thirdAnimation.offsetTop')
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', scrollingToPosition);
+        return () => window.removeEventListener('scroll', scrollingToPosition)
+    }, [])
+
 
     return (
         <section style={{ height: '760vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
-            <div style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
-            <div style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
-            <div style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
+            <div id={'first-animation'} style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
+            <div id={'finish-first-animation'} style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
+            <div id={'second-animation'} style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
             <div style={{ height: '50vh', top: '120vh', position: 'absolute' }} ref={refOpacityEasilySwitchSection} />
-            <div style={{ height: '50vh', top: '170vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
-            <div style={{ height: '50vh', top: '220vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
-            <div style={{height: '50vh', top: '270vh', position: 'absolute'}} ref={refOpacityParametersTextSection} />
+            <div id={'finish-second-animation'} style={{ height: '50vh', top: '170vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div id={'third-animation'} style={{ height: '50vh', top: '220vh', position: 'absolute' }} ref={refOpacityLightenDropdownSection} />
+            <div id={'fourth-animation'} style={{height: '50vh', top: '270vh', position: 'absolute'}} ref={refOpacityParametersTextSection} />
             <div style={{height: '50vh', top: '320vh', position: 'absolute'}} ref={refTransformXEasyControlSection} />
-            <div style={{height: '50vh', top: '370vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
-            <div style={{height: '50vh', top: '420vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
+            <div id={'fifth-animation'} style={{height: '50vh', top: '370vh', position: 'absolute'}} ref={refTransformXGenerateByImageSection} />
+            <div id={'sixth-animation'} style={{height: '50vh', top: '420vh', position: 'absolute'}} ref={refScaleAdvancedToolsSection} />
             <div style={{height: '50vh', top: '470vh', position: 'absolute'}} ref={refOpacityAdvancedToolsTextSection} />
             <div style={{height: '50vh', top: '520vh', position: 'absolute'}} ref={refZeroOpacityAdvancedToolsTextSection} />
-            <div style={{height: '50vh', top: '570vh', position: 'absolute'}} ref={refScaleFlexibilitySection} />
-            <div style={{height: '50vh', top: '620vh', position: 'absolute'}} ref={refOpacityFlexibilityTextSection} />
+            <div id={'seventh-animation'} style={{height: '50vh', top: '570vh', position: 'absolute'}} ref={refScaleFlexibilitySection} />
+            <div id={'eighth-animation'} style={{height: '50vh', top: '620vh', position: 'absolute'}} ref={refOpacityFlexibilityTextSection} />
 
             <div style={{ position: 'sticky', top: '40vh', height: '150vh', width: '100%'}}>
-                <motion.div
+                <div
+                    className={`width-lighten-dropdown-sec`}
                     style={{
-                        width: widthLightenDropdownSection,
+                        // width: widthLightenDropdownSection,
                     }}
                 >
                     <motion.div style={{
                         width: widthAdvancedToolsSection,
                     }}>
-                        <motion.div style={{
-                            translateX: transformXGenerateByImageSection
+                        <div
+                            className={'transform-x-generate-by-image-sec'}
+                            style={{
+                                transform: `translateX(0%)  translateZ(0px)`
+
+                                // translateX: transformXGenerateByImageSection
                         }}>
-                            <motion.div style={{
-                                translateX: transformXEasyControlSection
+                            <div
+                                className={'transform-x-easy-control-sec'}
+                                style={{
+                                // translateX: transformXEasyControlSection
                             }}>
                                 <div
                                     className={'header-width-container'}
@@ -473,9 +681,12 @@ const DesktopAnimation = () => {
                                     </motion.div>
 
 
-                                    <motion.div style={{
-                                        translateX: transformXAdvancedToolsInFlexibilitySection,
-                                    }}>
+                                    <div
+                                        className={'transform-x-advanced-tools-in-flexibility'}
+                                        style={{
+                                            // translateX: transformXAdvancedToolsInFlexibilitySection,
+                                        }}
+                                    >
                                         <motion.div style={{
                                             translateX: transformXAdvancedToolsSection,
                                             translateY: transformYAdvancedToolsSection,
@@ -562,7 +773,7 @@ const DesktopAnimation = () => {
                                                 </motion.div>
                                             </div>
                                         </motion.div>
-                                    </motion.div>
+                                    </div>
 
 
                                     <motion.div style={{
@@ -584,9 +795,18 @@ const DesktopAnimation = () => {
 
 
                                     <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
-                                        <motion.div style={{opacity: opacityEasilySwitchSection, position: "absolute", top: "25%", width: '100%', paddingLeft: '8%' }}>
+                                        <div
+                                            className={'opacity-easily-switch'}
+                                            style={{
+                                                // opacity: opacityEasilySwitchSection,
+                                                position: "absolute",
+                                                top: "25%",
+                                                width: '100%',
+                                                paddingLeft: '8%',
+                                            }}
+                                        >
                                             <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
-                                        </motion.div>
+                                        </div>
                                     </motion.div>
 
                                     <motion.div style={{opacity: opacityZeroParametersText }}>
@@ -682,10 +902,10 @@ const DesktopAnimation = () => {
 
 
                                 </div>
-                            </motion.div>
-                        </motion.div>
+                            </div>
+                        </div>
                     </motion.div>
-                </motion.div>
+                </div>
 
 
             </div>
