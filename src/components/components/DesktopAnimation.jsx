@@ -5,6 +5,7 @@ import useVerticalScroll from "@/hooks/useVerticalScroll";
 const DesktopAnimation = () => {
     const [isOpenFullSpaceButtons, setIsOpenFullSpaceButtons] = useState(false);
     const [isAnimated, setIsAnimated] = useState(true)
+    const [animationIndex, setAnimationIndex] = useState(1)
     const refSpaceSection = useRef(null)
     const refScaleSpaceSection = useRef(null)
     const refScaleGalleryGenerationSection = useRef(null)
@@ -432,7 +433,25 @@ const DesktopAnimation = () => {
         }
     })
 
+    // useEffect(() => {
+    //
+    //     const firstAnimation = document.querySelector('#second-animation');
+    //
+    //     setTimeout(() => firstAnimation.scrollIntoView(), 3000)
+    // }, [])
+
     const scrollingToPosition = (event) => {
+        const animationIndexMapping = {
+            1: 'first',
+            2: 'second',
+            3: 'third',
+            4: 'fourth',
+            5: 'fifth',
+            6: 'sixth',
+            7: 'seventh',
+            8: 'eighth',
+        }
+        console.log('wheel')
         const firstAnimation = document.querySelector('#first-animation');
         const finishFirstAnimation = document.querySelector('#finish-first-animation');
         const secondAnimation = document.querySelector('#second-animation');
@@ -445,95 +464,117 @@ const DesktopAnimation = () => {
         const seventhAnimation = document.querySelector('#seventh-animation');
         const eighthAnimation = document.querySelector('#eighth-animation');
 
-        // console.log(firstAnimation.getBoundingClientRect(), 'firstAnimation.getBoundingClientRect()')
 
+        console.log('eighthAnimation.getBoundingClientRect().top', eighthAnimation.getBoundingClientRect().top)
+        console.log('eighthAnimation.getBoundingClientRect().bottom', eighthAnimation.getBoundingClientRect().bottom)
+        const isAnimationStart = firstAnimation.getBoundingClientRect().top < 0
+        const isAnimationFinish = eighthAnimation.getBoundingClientRect().top > 50
+        if (!isAnimationStart || !isAnimationFinish) {
+            return;
+        }
+        event.preventDefault()
+        console.log('isAnimated', isAnimated)
+        if (!isAnimated) {
+            return
+        }
+        console.log('animation proceeding')
 
+        const isUpscroll = event.deltaY < 0
+        const updatedAnimationIndex = animationIndex + (isUpscroll ? -1 : 1)
+        setAnimationIndex(updatedAnimationIndex)
 
-        var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-        if (st > refLastScrollTop.current) {
-            // downscroll code
-            // console.log('downscroll code')
+        const scrollIntoViewContainer = document.getElementById(`${animationIndexMapping[updatedAnimationIndex]}-animation`)
+        scrollIntoViewContainer?.scrollIntoView()
 
-            //conditions for first animation
-            if(window.scrollY > firstAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < firstAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                secondAnimation.scrollIntoView()
-            }
-
-            //conditions for second animation
-            if(window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < secondAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                finishSecondAnimation.scrollIntoView()
-            }
-
-            //conditions for third animation
-            if(window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < thirdAnimation.getBoundingClientRect().top + window.scrollY + 10) {
-                fourthAnimation.scrollIntoView()
-            }
-
-            //conditions for fourth animation
-            if(window.scrollY > fourthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                fifthAnimation.scrollIntoView()
-            }
-
-            //conditions for fifth animation
-            if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                sixthAnimation.scrollIntoView()
-            }
-
-            //conditions for sixth animation
-            if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                seventhAnimation.scrollIntoView()
-            }
-
-            //conditions for seventh animation
-            if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                eighthAnimation.scrollIntoView()
-            }
-
-
-
-        } else if (st < refLastScrollTop.current) {
-            // upscroll code
-            if(isAnimated) {
-                setIsAnimated(false)
-                if(window.scrollY < finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > firstAnimation.getBoundingClientRect().bottom + window.scrollY) {
-                    console.log('firstAnimation.scrollIntoView()')
-                    //conditions for first animation
-                    firstAnimation.scrollIntoView()
-                } else if(window.scrollY < finishSecondAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 300) {
-                    console.log('secondAnimation.scrollIntoView()')
-                    //conditions for second animation
-                    secondAnimation.scrollIntoView()
-                } else if(window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY && window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY) {
-                    console.log('thirdAnimation.scrollIntoView()')
-                    //conditions for third animation
-                    thirdAnimation.scrollIntoView()
-                } else if(window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY   && window.scrollY > fourthAnimation.getBoundingClientRect().bottom + window.scrollY) {
-                    console.log('fourthAnimation.scrollIntoView()')
-                    //conditions for fourth animation
-                    fourthAnimation.scrollIntoView()
-                }
-                setTimeout(() => setIsAnimated(true), 10000)
-            }
-
-
-            // //conditions for fifth animation
-            // if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-            //     sixthAnimation.scrollIntoView()
-            // }
-            //
-            // //conditions for sixth animation
-            // if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-            //     seventhAnimation.scrollIntoView()
-            // }
-            //
-            // //conditions for seventh animation
-            // if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-            //     eighthAnimation.scrollIntoView()
-            // }
-
-
-        } // else was horizontal scroll
-        refLastScrollTop.current = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+        setIsAnimated(false)
+        setTimeout(() => setIsAnimated(true), 700)
+        // var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+        //
+        // if (st > refLastScrollTop.current) {
+        //     // downscroll code
+        //     console.log('downscroll code')
+        //
+        //     //conditions for first animation
+        //     if(window.scrollY > firstAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < firstAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         secondAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for second animation
+        //     if(window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < secondAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         finishSecondAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for third animation
+        //     if(window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < thirdAnimation.getBoundingClientRect().top + window.scrollY + 10) {
+        //         fourthAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for fourth animation
+        //     if(window.scrollY > fourthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         fifthAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for fifth animation
+        //     if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         sixthAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for sixth animation
+        //     if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         seventhAnimation.scrollIntoView()
+        //     }
+        //
+        //     //conditions for seventh animation
+        //     if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //         eighthAnimation.scrollIntoView()
+        //     }
+        // } else if (st < refLastScrollTop.current) {
+        //     // upscroll code
+        //     console.log('upscroll code')
+        //     console.log('isAnimated', isAnimated)
+        //     if(isAnimated) {
+        //         setIsAnimated(false)
+        //         if(window.scrollY < finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > firstAnimation.getBoundingClientRect().bottom + window.scrollY) {
+        //             console.log('firstAnimation.scrollIntoView()')
+        //             //conditions for first animation
+        //             firstAnimation.scrollIntoView()
+        //         } else if(window.scrollY < finishSecondAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 300) {
+        //             console.log('secondAnimation.scrollIntoView()')
+        //             //conditions for second animation
+        //             secondAnimation.scrollIntoView()
+        //         } else if(window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY && window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY) {
+        //             console.log('thirdAnimation.scrollIntoView()')
+        //             //conditions for third animation
+        //             thirdAnimation.scrollIntoView()
+        //         } else if(window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY   && window.scrollY > fourthAnimation.getBoundingClientRect().bottom + window.scrollY) {
+        //             console.log('fourthAnimation.scrollIntoView()')
+        //             //conditions for fourth animation
+        //             fourthAnimation.scrollIntoView()
+        //         }
+        //     } else {
+        //         return;
+        //     }
+        //
+        //
+        //
+        //     // //conditions for fifth animation
+        //     // if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //     //     sixthAnimation.scrollIntoView()
+        //     // }
+        //     //
+        //     // //conditions for sixth animation
+        //     // if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //     //     seventhAnimation.scrollIntoView()
+        //     // }
+        //     //
+        //     // //conditions for seventh animation
+        //     // if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+        //     //     eighthAnimation.scrollIntoView()
+        //     // }
+        //
+        //
+        // } // else was horizontal scroll
+        // refLastScrollTop.current = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 
 
         // console.log('Current scroll from the top: ', window.pageYOffset)
@@ -553,9 +594,11 @@ const DesktopAnimation = () => {
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', scrollingToPosition);
-        return () => window.removeEventListener('scroll', scrollingToPosition)
-    }, [])
+        window.addEventListener('wheel', scrollingToPosition, {
+            passive: false
+        });
+        return () => window.removeEventListener('wheel', scrollingToPosition)
+    }, [isAnimated, animationIndex])
 
 
     return (
