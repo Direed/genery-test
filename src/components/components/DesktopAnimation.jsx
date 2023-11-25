@@ -4,6 +4,7 @@ import useVerticalScroll from "@/hooks/useVerticalScroll";
 
 const DesktopAnimation = () => {
     const [isOpenFullSpaceButtons, setIsOpenFullSpaceButtons] = useState(false);
+    const [isAnimated, setIsAnimated] = useState(true)
     const refSpaceSection = useRef(null)
     const refScaleSpaceSection = useRef(null)
     const refScaleGalleryGenerationSection = useRef(null)
@@ -116,11 +117,11 @@ const DesktopAnimation = () => {
     })
 
     opacityEasilySwitch.on('change', (value) => {
-        console.log(value, 'value')
+        // console.log(value, 'value')
 
         const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
         const updatedOpacity = getTransformValue(0, 1)
-        console.log(updatedOpacity, 'updatedOpacity')
+        // console.log(updatedOpacity, 'updatedOpacity')
 
         const opacityEasilySwitch = document.querySelector('.opacity-easily-switch')
 
@@ -130,15 +131,26 @@ const DesktopAnimation = () => {
     })
 
     z.on('change', (value) => {
-        console.log(value, 'value')
+
+        // const transformYSpaceSectionToTop = useTransform(scrollYProgressOpacityLightenDropdownSection, [1, 0], ['-30%', '0%'],{
+        //     ease: circOut
+        // });
+        // console.log(value, 'value')
 
         const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
         const updatedWidth = getTransformValue(100, 50)
-        console.log(updatedWidth, 'updatedWidth')
+        const updatedOpacityEasilySwitch = getTransformValue(1, 0);
+        const updatedOpacityLightenDropdown = getTransformValue(0, 1);
+        const updatedTransformXSpaceSectionToTop = getTransformValue(0, -30);
 
         const widthLightenDropdownSection = document.querySelector('.width-lighten-dropdown-sec')
+        const opacityEasilySwitch = document.querySelector('.opacity-easily-switch-dropdown');
+        const opacityLightenDropdownSection = document.querySelector('.opacity-lighten-dropdown');
 
-        widthLightenDropdownSection.style.width = `${updatedWidth}%`
+
+        widthLightenDropdownSection.style.width = `${updatedWidth}%`;
+        opacityEasilySwitch.style.opacity = `${updatedOpacityEasilySwitch}`;
+        opacityLightenDropdownSection.style.opacity = `${updatedOpacityLightenDropdown}`;
     })
 
     const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
@@ -433,14 +445,14 @@ const DesktopAnimation = () => {
         const seventhAnimation = document.querySelector('#seventh-animation');
         const eighthAnimation = document.querySelector('#eighth-animation');
 
-        console.log(firstAnimation.getBoundingClientRect(), 'firstAnimation.getBoundingClientRect()')
+        // console.log(firstAnimation.getBoundingClientRect(), 'firstAnimation.getBoundingClientRect()')
 
 
 
         var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
         if (st > refLastScrollTop.current) {
             // downscroll code
-            console.log('downscroll code')
+            // console.log('downscroll code')
 
             //conditions for first animation
             if(window.scrollY > firstAnimation.getBoundingClientRect().top + window.scrollY  && window.scrollY < firstAnimation.getBoundingClientRect().top + window.scrollY + 150) {
@@ -481,56 +493,57 @@ const DesktopAnimation = () => {
 
         } else if (st < refLastScrollTop.current) {
             // upscroll code
-            console.log('upscroll code')
-
-            //conditions for first animation
-            if(window.scrollY < finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > firstAnimation.getBoundingClientRect().bottom + window.scrollY) {
-                firstAnimation.scrollIntoView()
+            if(isAnimated) {
+                setIsAnimated(false)
+                if(window.scrollY < finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > firstAnimation.getBoundingClientRect().bottom + window.scrollY) {
+                    console.log('firstAnimation.scrollIntoView()')
+                    //conditions for first animation
+                    firstAnimation.scrollIntoView()
+                } else if(window.scrollY < finishSecondAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 300) {
+                    console.log('secondAnimation.scrollIntoView()')
+                    //conditions for second animation
+                    secondAnimation.scrollIntoView()
+                } else if(window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY && window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY) {
+                    console.log('thirdAnimation.scrollIntoView()')
+                    //conditions for third animation
+                    thirdAnimation.scrollIntoView()
+                } else if(window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY   && window.scrollY > fourthAnimation.getBoundingClientRect().bottom + window.scrollY) {
+                    console.log('fourthAnimation.scrollIntoView()')
+                    //conditions for fourth animation
+                    fourthAnimation.scrollIntoView()
+                }
+                setTimeout(() => setIsAnimated(true), 10000)
             }
 
-            //conditions for second animation
-            if(window.scrollY < finishSecondAnimation.getBoundingClientRect().bottom + window.scrollY && window.scrollY > secondAnimation.getBoundingClientRect().top + window.scrollY + 300) {
-                secondAnimation.scrollIntoView()
-            }
 
-            //conditions for third animation
-            if(window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY && window.scrollY > thirdAnimation.getBoundingClientRect().top + window.scrollY + 300) {
-                thirdAnimation.scrollIntoView()
-            }
-
-            //conditions for fourth animation
-            if(window.scrollY > fourthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fourthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                fifthAnimation.scrollIntoView()
-            }
-
-            //conditions for fifth animation
-            if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                sixthAnimation.scrollIntoView()
-            }
-
-            //conditions for sixth animation
-            if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                seventhAnimation.scrollIntoView()
-            }
-
-            //conditions for seventh animation
-            if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
-                eighthAnimation.scrollIntoView()
-            }
+            // //conditions for fifth animation
+            // if(window.scrollY > fifthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < fifthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+            //     sixthAnimation.scrollIntoView()
+            // }
+            //
+            // //conditions for sixth animation
+            // if(window.scrollY > sixthAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < sixthAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+            //     seventhAnimation.scrollIntoView()
+            // }
+            //
+            // //conditions for seventh animation
+            // if(window.scrollY > seventhAnimation.getBoundingClientRect().top + window.scrollY + 50  && window.scrollY < seventhAnimation.getBoundingClientRect().top + window.scrollY + 150) {
+            //     eighthAnimation.scrollIntoView()
+            // }
 
 
         } // else was horizontal scroll
         refLastScrollTop.current = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 
 
-        console.log('Current scroll from the top: ', window.pageYOffset)
-        console.log('window.scrollY', window.scrollY)
-
-        console.log(firstAnimation.getBoundingClientRect().top + window.scrollY, 'firstAnimation.getBoundingClientRect().top + window.scrollY')
-        console.log(finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY, 'finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY')
-
-        console.log(secondAnimation.getBoundingClientRect().top + window.scrollY, 'secondAnimation.getBoundingClientRect().top + window.scrollY')
-        console.log(thirdAnimation.getBoundingClientRect().top + window.scrollY, 'thirdAnimation.getBoundingClientRect().top + window.scrollY')
+        // console.log('Current scroll from the top: ', window.pageYOffset)
+        // console.log('window.scrollY', window.scrollY)
+        //
+        // console.log(firstAnimation.getBoundingClientRect().top + window.scrollY, 'firstAnimation.getBoundingClientRect().top + window.scrollY')
+        // console.log(finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY, 'finishFirstAnimation.getBoundingClientRect().bottom + window.scrollY')
+        //
+        // console.log(secondAnimation.getBoundingClientRect().top + window.scrollY, 'secondAnimation.getBoundingClientRect().top + window.scrollY')
+        // console.log(thirdAnimation.getBoundingClientRect().top + window.scrollY, 'thirdAnimation.getBoundingClientRect().top + window.scrollY')
 
 
 
@@ -644,13 +657,22 @@ const DesktopAnimation = () => {
                                         {/*</motion.div>*/}
 
                                         <motion.div style={{opacity: opacitySpaceLightingDropdown}}>
-                                            <motion.div style={{opacity: opacityLightenDropdownSection, position: "absolute", top: "calc(60% - 30px)", left: "calc(24% - 130px)" }}>
+                                            <div
+                                                className={'opacity-lighten-dropdown'}
+                                                style={{
+                                                    opacity: 0,
+                                                    // opacity: opacityLightenDropdownSection,
+                                                    position: "absolute",
+                                                    top: "calc(60% - 30px)",
+                                                    left: "calc(24% - 130px)",
+                                                }}
+                                            >
                                                 <img
                                                     style={{ width: '100%'}}
                                                     src={"/images/_src/Space_lighten_dropdown.webp"}
                                                     alt=""
                                                 />
-                                            </motion.div>
+                                            </div>
                                         </motion.div>
 
                                         <div style={{position: "absolute", top: "19%", left: "60.75%"}}>
@@ -794,7 +816,11 @@ const DesktopAnimation = () => {
 
 
 
-                                    <motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>
+                                    <div
+                                        className={'opacity-easily-switch-dropdown'}
+                                        style={{opacity: 1}}
+                                        // style={{opacity: opacityEasilySwitchDropdownSection}}
+                                    >
                                         <div
                                             className={'opacity-easily-switch'}
                                             style={{
@@ -807,7 +833,7 @@ const DesktopAnimation = () => {
                                         >
                                             <h2 className="page-title">easily switch from <br /><i>gallery</i> to <i>generation</i></h2>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
                                     <motion.div style={{opacity: opacityZeroParametersText }}>
                                         <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '37%', left: "10%", zIndex: '100'}}>
