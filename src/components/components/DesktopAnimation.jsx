@@ -30,26 +30,114 @@ const DesktopAnimation = () => {
 
     const refLastScrollTop = useRef(0);
 
+    const spaceSection = useVerticalScroll({ref: refSpaceSection, limit: 100, springConfig: {mass: 0.01}})
     const y = useVerticalScroll({ref: refScaleSpaceSection, limit: 100, springConfig: {mass: 0.01, stiffness: 2, damping: 1 }})
     const x = useVerticalScroll({ref: refScaleGalleryGenerationSection, limit: 100, springConfig: {mass: 0.01, stiffness: 2, damping: 1 }})
-    const opacityEasilySwitch = useVerticalScroll({ref: refOpacityEasilySwitchSection, limit: 100, springConfig: {mass: 0.01}})
-    const z = useVerticalScroll({ref: refOpacityLightenDropdownSection, limit: 100, springConfig: {mass: 0.01}})
-    const transformXEasyControl = useVerticalScroll({ref: refTransformXEasyControlSection, limit: 100, springConfig: {mass: 0.01}})
-    const transformXGenerateByImage = useVerticalScroll({ref: refTransformXGenerateByImageSection, limit: 100, springConfig: {mass: 0.01}})
-    const scaleFlexibility = useVerticalScroll({ref: refScaleFlexibilitySection, limit: 100, springConfig: {mass: 0.01}})
+    const opacityEasilySwitch = useVerticalScroll({ref: refOpacityEasilySwitchSection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
+    const z = useVerticalScroll({ref: refOpacityLightenDropdownSection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
+    const transformXEasyControl = useVerticalScroll({ref: refTransformXEasyControlSection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
+    const transformXGenerateByImage = useVerticalScroll({ref: refTransformXGenerateByImageSection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
+    const scaleAdvancedToolsSection = useVerticalScroll({ref: refScaleAdvancedToolsSection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
+    const scaleFlexibility = useVerticalScroll({ref: refScaleFlexibilitySection, limit: 100, springConfig: {mass: 0.01 , stiffness: 2, damping: 1}})
 
-    // console.log('y', y)
+    spaceSection.on('change', (value) => {
+        // console.log(value, 'value')
+
+        const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedWidth = getTransformValue(600, 100)
+        const updatedTransformY = getTransformValue(0, -30)
+
+        const transformSpaceSection = document.querySelector('.transform-space-section')
+
+        // transformSpaceSection.style.width = `${updatedWidth}%`
+        // transformSpaceSection.style.transform = `translateY(${updatedTransformY}%) translateZ(0px)`
+    })
+
+    scaleAdvancedToolsSection.on('change', (value) => {
+        const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
+        const updatedWidth = getTransformValue(100, 50)
+        const updatedTransformX = getTransformValue(0, -20)
+        const updatedTransformY = getTransformValue(0, 15)
+        const updatedTransformToBottomY = getTransformValue(0, 30)
+
+        const widthAdvancedTools = document.querySelector('.width-advanced-tools-section')
+        // const transformYAdvancedTools = document.querySelector('.advanced-tools-section')
+        const transformAdvancedTools = document.querySelector('.transform-advanced-tools-section')
+        const transformToBottomAdvancedTools = document.querySelector('.transform-to-bottom-advanced-tools-section')
+
+        widthAdvancedTools.style.width = `${updatedWidth}%`
+
+        transformAdvancedTools.style.transform = `translateX(${updatedTransformX}%) translateY(${updatedTransformY}%) translateZ(0px)`
+        transformToBottomAdvancedTools.style.transform = `translateY(${updatedTransformToBottomY}%) translateZ(0px)`
 
 
+
+        const opacityGenerateByImageSection = document.querySelector('.opacity-generate-by-image');
+        const opacityAdvancedToolsSection = document.querySelector('.opacity-advanced-tools');
+        const dropdownGenerateByImageSection = document.querySelector('.dropdown-generate-by-image');
+
+        const headerContainerSection = document.querySelector('.header-container');
+
+
+        if (value <= -90) {
+            opacityAdvancedToolsSection.style.opacity = 1
+        } else {
+            opacityAdvancedToolsSection.style.opacity = 0
+        }
+        if (value > -10) {
+            opacityGenerateByImageSection.style.opacity = 1
+            dropdownGenerateByImageSection.style.opacity = 1
+            headerContainerSection.style.opacity = 1
+        } else {
+            headerContainerSection.style.opacity = 0
+            dropdownGenerateByImageSection.style.opacity = 0
+            opacityGenerateByImageSection.style.opacity = 0
+        }
+    })
     scaleFlexibility.on('change', (value) => {
         // console.log(value, 'value')
 
         const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
         const updatedTransformX = getTransformValue(0, 42)
+        const updatedBlur = getTransformValue(0, 1)
 
+        const opacityFlexibilitySection = document.querySelector('.opacity-flexibility-section\n')
         const transformXAdvancedToolsInFlexibility = document.querySelector('.transform-x-advanced-tools-in-flexibility')
 
         transformXAdvancedToolsInFlexibility.style.transform = `translateX(${updatedTransformX}%) translateY(0px) translateZ(0px)`
+
+
+
+        const spaceImg = document.querySelector('.space-img')
+        const spaceButtons = document.querySelector('.space-buttons')
+        const opacityAdvancedToolsSection = document.querySelector('.opacity-advanced-tools');
+
+        if (value <= -90) {
+            opacityFlexibilitySection.style.opacity = 1
+        } else {
+            opacityFlexibilitySection.style.opacity = 0
+        }
+
+        if (value > -30) {
+            // spaceImg.style.opacity = 1
+            // spaceButtons.style.opacity = 1
+            spaceImg.style.opacity = 1
+            spaceButtons.style.opacity = 1
+            opacityAdvancedToolsSection.style.opacity = 1
+        } else {
+            opacityAdvancedToolsSection.style.opacity = 0
+            spaceImg.style.opacity = 0
+            spaceButtons.style.opacity = 0
+        }
+
+        refSpaceImg.current.style.filter = `blur(${(1 - (1 - updatedBlur)) * 40}px)`
+        if(updatedBlur > 0.10 ) {
+            refGirlImg.current.style.opacity = 1
+            refGirlImg.current.style.filter = `blur(${(1 - updatedBlur) * 1000}px)`
+        } else {
+            refGirlImg.current.style.opacity = 0.4
+            refGirlImg.current.style.filter = `blur(${(1 - updatedBlur) * 400}px)`
+        }
     })
 
 
@@ -62,6 +150,32 @@ const DesktopAnimation = () => {
         const transformXGenerateByImageSection = document.querySelector('.transform-x-generate-by-image-sec')
 
         transformXGenerateByImageSection.style.transform = `translateX(${updatedTransformX}%) translateY(0px) translateZ(0px)`
+
+        const opacityGenerateByImageSection = document.querySelector('.opacity-generate-by-image');
+        const dropdownGenerateByImageSection = document.querySelector('.dropdown-generate-by-image');
+        const parametersLightenDropdownSection = document.querySelector('.paramaters-lighten-dropdown');
+
+        const opacityEasyControlSection = document.querySelector('.opacity-easy-control');
+        const dropdownEasyControlSection = document.querySelector('.dropdown-easy-control');
+
+        if (value <= -75) {
+            dropdownGenerateByImageSection.style.opacity = 1
+        } else {
+            dropdownGenerateByImageSection.style.opacity = 0
+
+        }
+
+        if (value <= -85) {
+            opacityGenerateByImageSection.style.opacity = 1
+        } else {
+            opacityEasyControlSection.style.opacity = 0
+            dropdownEasyControlSection.style.opacity = 0
+            opacityGenerateByImageSection.style.opacity = 0
+        }
+        if (value > -5) {
+            opacityEasyControlSection.style.opacity = 1
+            dropdownEasyControlSection.style.opacity = 1
+        }
     })
 
     transformXEasyControl.on('change', (value) => {
@@ -69,10 +183,37 @@ const DesktopAnimation = () => {
 
         const getTransformValue = (initial, final) => initial - (initial - final) * (-value) / 100
         const updatedTransformX = getTransformValue(0, -165)
+        const updatedTransformXDropdownEasyControl = getTransformValue(-100, 0)
 
         const transformXEasyControlSection = document.querySelector('.transform-x-easy-control-sec')
 
         transformXEasyControlSection.style.transform = `translateX(${updatedTransformX}%)  translateZ(0px)`
+
+        const opacityLightenDropdownSection = document.querySelector('.opacity-lighten-dropdown');
+        const opacityEasyControlSection = document.querySelector('.opacity-easy-control');
+        const dropdownEasyControlSection = document.querySelector('.dropdown-easy-control');
+        const parametersLightenDropdownSection = document.querySelector('.paramaters-lighten-dropdown');
+        opacityEasyControlSection.style.transform = `translateX(${updatedTransformXDropdownEasyControl}%)  translateZ(0px)`
+
+
+        if (value <= -75) {
+            dropdownEasyControlSection.style.opacity = 1
+        } else {
+            dropdownEasyControlSection.style.opacity = 0
+
+        }
+
+        if (value <= -90) {
+            opacityEasyControlSection.style.opacity = 1
+        } else {
+            parametersLightenDropdownSection.style.visibility = 'hidden'
+            opacityEasyControlSection.style.opacity = 0
+            opacityLightenDropdownSection.style.visibility = 'hidden'
+        }
+        if (value > -5) {
+            opacityLightenDropdownSection.style.visibility = 'visible'
+            parametersLightenDropdownSection.style.visibility = 'visible'
+        }
     })
 
 
@@ -118,17 +259,19 @@ const DesktopAnimation = () => {
     })
 
     opacityEasilySwitch.on('change', (value) => {
-        // console.log(value, 'value')
+        console.log(value, 'value')
 
         const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
-        const updatedOpacity = getTransformValue(0, 1)
+        const updatedOpacity = getTransformValue(-1, 1)
         // console.log(updatedOpacity, 'updatedOpacity')
 
         const opacityEasilySwitch = document.querySelector('.opacity-easily-switch')
 
-
-        opacityEasilySwitch.style.opacity = `${updatedOpacity}`
-
+        if (value <= -90) {
+            opacityEasilySwitch.style.opacity = 1
+        } else {
+            opacityEasilySwitch.style.opacity = 0
+        }
     })
 
     z.on('change', (value) => {
@@ -145,13 +288,26 @@ const DesktopAnimation = () => {
         const updatedTransformXSpaceSectionToTop = getTransformValue(0, -30);
 
         const widthLightenDropdownSection = document.querySelector('.width-lighten-dropdown-sec')
-        const opacityEasilySwitch = document.querySelector('.opacity-easily-switch-dropdown');
+        const opacityEasilySwitch = document.querySelector('.opacity-easily-switch');
         const opacityLightenDropdownSection = document.querySelector('.opacity-lighten-dropdown');
+        const parametersLightenDropdownSection = document.querySelector('.paramaters-lighten-dropdown');
+
+
+        if (value <= -90) {
+            opacityLightenDropdownSection.style.opacity = 1;
+            parametersLightenDropdownSection.style.opacity = 1
+        } else {
+            opacityEasilySwitch.style.visibility = 'hidden'
+            opacityLightenDropdownSection.style.opacity = 0;
+            parametersLightenDropdownSection.style.opacity = 0
+        }
+        if (value > -5) {
+            opacityEasilySwitch.style.visibility = 'visible'
+        }
 
 
         widthLightenDropdownSection.style.width = `${updatedWidth}%`;
-        opacityEasilySwitch.style.opacity = `${updatedOpacityEasilySwitch}`;
-        opacityLightenDropdownSection.style.opacity = `${updatedOpacityLightenDropdown}`;
+        // opacityEasilySwitch.style.opacity = `${updatedOpacityEasilySwitch}`;
     })
 
     const { scrollYProgress: scrollYProgressSpaceSection } = useScroll({
@@ -392,14 +548,14 @@ const DesktopAnimation = () => {
 
     scrollYProgressScaleFlexibilitySection.on('change', value => {
         // console.log(value, 'value')
-        refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
-        if(value > 0.10 ) {
-            refGirlImg.current.style.opacity = 1
-            refGirlImg.current.style.filter = `blur(${(1 - value) * 1000}px)`
-        } else {
-            refGirlImg.current.style.opacity = 0.4
-            refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
-        }
+        // refSpaceImg.current.style.filter = `blur(${(1 - (1 - value)) * 40}px)`
+        // if(value > 0.10 ) {
+        //     refGirlImg.current.style.opacity = 1
+        //     refGirlImg.current.style.filter = `blur(${(1 - value) * 1000}px)`
+        // } else {
+        //     refGirlImg.current.style.opacity = 0.4
+        //     refGirlImg.current.style.filter = `blur(${(1 - value) * 400}px)`
+        // }
     })
 
     // scrollYProgressScaleGalleryGenerationSection.on('change', value => {
@@ -426,6 +582,7 @@ const DesktopAnimation = () => {
     })
 
     scrollYProgressTransformXEasyControlSection.on('change', value => {
+        console.log('here')
         if(value === 0) {
             refHiddenBlock.current.style.display = 'none'
         } else {
@@ -602,7 +759,7 @@ const DesktopAnimation = () => {
 
 
     return (
-        <section style={{ height: '760vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
+        <section style={{ height: '715vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
             <div id={'first-animation'} style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
             <div id={'finish-first-animation'} style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
             <div id={'second-animation'} style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
@@ -625,9 +782,7 @@ const DesktopAnimation = () => {
                         // width: widthLightenDropdownSection,
                     }}
                 >
-                    <motion.div style={{
-                        width: widthAdvancedToolsSection,
-                    }}>
+                    <div className="width-advanced-tools-section">
                         <div
                             className={'transform-x-generate-by-image-sec'}
                             style={{
@@ -646,14 +801,15 @@ const DesktopAnimation = () => {
                                     //   width: widthSpaceGalleryGenerationSection,
                                     // }}
                                 >
-                                    <motion.div
+                                    <div
                                         className={'header-container'}
                                         style={{
+                                            transition: 'opacity ease 0.3s',
                                             zIndex: 100,
                                             position: 'relative',
                                             // scale: scaleSpaceHeaderSection,
                                             // translateY: transformYSpaceHeaderSection,
-                                            opacity: opacityAdvancedToolsSection,
+                                            opacity: 1,
                                         }}
                                     >
                                         {/*<motion.div style={{opacity: opacityEasilySwitchDropdownSection}}>*/}
@@ -677,7 +833,7 @@ const DesktopAnimation = () => {
                                         {/*  </motion.div>*/}
                                         {/*</motion.div>*/}
 
-                                        <motion.div style={{ opacity: opacityEasyControlText, position: "absolute", top: '170%', left: "80%"}}>
+                                        <div className="opacity-easy-control" style={{ opacity: 0, transition: 'opacity easy 0.3s', position: "absolute", top: '170%', left: "80%"}}>
 
                                             <div style={{maxWidth: '480px'}}>
                                                 <h3 className="sec-title">Easy control</h3>
@@ -686,7 +842,7 @@ const DesktopAnimation = () => {
                                                     <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
                                                 </div>
                                             </div>
-                                        </motion.div>
+                                        </div>
 
                                         {/*<motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '170%', left: "5%"}}>*/}
                                         {/*  <div style={{maxWidth: '480px'}}>*/}
@@ -699,43 +855,41 @@ const DesktopAnimation = () => {
                                         {/*  </div>*/}
                                         {/*</motion.div>*/}
 
-                                        <motion.div style={{opacity: opacitySpaceLightingDropdown}}>
-                                            <div
-                                                className={'opacity-lighten-dropdown'}
-                                                style={{
-                                                    opacity: 0,
-                                                    // opacity: opacityLightenDropdownSection,
-                                                    position: "absolute",
-                                                    top: "calc(60% - 30px)",
-                                                    left: "calc(24% - 130px)",
-                                                }}
-                                            >
-                                                <img
-                                                    style={{ width: '100%'}}
-                                                    src={"/images/_src/Space_lighten_dropdown.webp"}
-                                                    alt=""
-                                                />
-                                            </div>
-                                        </motion.div>
+                                        <div
+                                            className={'opacity-lighten-dropdown'}
+                                            style={{
+                                                opacity: 0,
+                                                transition: 'opacity ease 0.3s',
+                                                position: "absolute",
+                                                top: "calc(60% - 30px)",
+                                                left: "calc(24% - 130px)",
+                                            }}
+                                        >
+                                            <img
+                                                style={{ width: '100%'}}
+                                                src={"/images/_src/Space_lighten_dropdown.webp"}
+                                                alt=""
+                                            />
+                                        </div>
 
                                         <div style={{position: "absolute", top: "19%", left: "60.75%"}}>
-                                            <motion.div style={{opacity: opacityEasyControlDropdown, position: "absolute", top: "19%", left: "60.75%", zIndex: '2' }}>
+                                            <div className="dropdown-easy-control" style={{opacity: 0, transition: 'opacity ease 0.3s', position: "absolute", top: "19%", left: "60.75%", zIndex: '2' }}>
                                                 <img
                                                     style={{ width: '15vw'}}
                                                     src={"/images/_src/easy-controls-dropdown.png"}
                                                     alt=""
                                                 />
-                                            </motion.div>
+                                            </div>
                                             <div ref={refHiddenBlock} style={{position: "absolute", top: "-1px", left: "0", backgroundColor: '#0A0A07', width: '15.1vw', height: '10vh', display: 'none', zIndex: '1'}}></div>
                                         </div>
 
-                                        <motion.div style={{opacity: opacityGenerateByImagePopup, position: "absolute", top: "100%", left: "22.5%" }}>
+                                        <div className="dropdown-generate-by-image" style={{opacity: 0, transition: 'opacity ease 0.3s', position: "absolute", top: "100%", left: "22.5%" }}>
                                             <img
                                                 style={{ width: '100%'}}
                                                 src={"/images/_src/generate-by-image-popup.webp"}
                                                 alt=""
                                             />
-                                        </motion.div>
+                                        </div>
 
                                         <img
                                             style={{ width: '100%'}}
@@ -743,7 +897,7 @@ const DesktopAnimation = () => {
                                             src={"/images/_src/Barbar_1.svg"}
                                             alt=""
                                         />
-                                    </motion.div>
+                                    </div>
 
 
                                     <div
@@ -752,10 +906,7 @@ const DesktopAnimation = () => {
                                             // translateX: transformXAdvancedToolsInFlexibilitySection,
                                         }}
                                     >
-                                        <motion.div style={{
-                                            translateX: transformXAdvancedToolsSection,
-                                            translateY: transformYAdvancedToolsSection,
-                                        }}>
+                                        <div className="transform-advanced-tools-section">
                                             <div
                                                 className={"space-section-container"}
                                                 style={{
@@ -765,17 +916,17 @@ const DesktopAnimation = () => {
                                                 }}>
                                                 <div className={"space-section-images"}>
 
-                                                    <motion.div style={{
-                                                        translateY: transformYSpaceSectionToBottom,
-                                                    }}>
+                                                    <div className="transform-to-bottom-advanced-tools-section">
                                                         <motion.div
+                                                          className="transform-space-section"
                                                             style={{
                                                                 translateY: transformYSpaceSectionToTop,
-                                                                width: widthSpaceSection,
+                                                                // width: widthSpaceSection,
                                                             }}
                                                         >
                                                             <img
-                                                                style={{ width: '100%'}}
+                                                              className="space-img"
+                                                                style={{ width: '100%', transition: 'opacity ease 0.3s'}}
                                                                 ref={refSpaceImg}
                                                                 src={"/images/_src/Space.webp"}
                                                                 alt=""
@@ -806,7 +957,7 @@ const DesktopAnimation = () => {
                                                             {/*</motion.div>*/}
 
                                                         </motion.div>
-                                                    </motion.div>
+                                                    </div>
                                                 </div>
 
                                                 <motion.div
@@ -837,25 +988,26 @@ const DesktopAnimation = () => {
                                                     </div>
                                                 </motion.div>
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     </div>
 
 
-                                    <motion.div style={{
-                                        position: "absolute", top: 'calc(100% - 200px)', left: "65vw", width: '100%',
-                                        opacity: zeroOpacityAdvancedToolsTextSection
+                                    <div
+                                      className="opacity-advanced-tools"
+                                      style={{
+                                        position: "absolute",
+                                        top: 'calc(100% - 200px)', left: "65vw", width: '100%',
+                                        opacity: 0
                                     }}>
-                                        <motion.div style={{ opacity: opacityAdvancedToolsTextSection}}>
-                                            <div>
-                                                <h3 className="sec-title">Advanced tools</h3>
-                                                <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even
-                                                    better results.</p>
-                                                <div className="interface-sec-3__btn-container">
-                                                    <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
-                                                </div>
+                                        <div>
+                                            <h3 className="sec-title">Advanced tools</h3>
+                                            <p className="sec-subtitle">you can edit your picture using advanced tools to achieve even
+                                                better results.</p>
+                                            <div className="interface-sec-3__btn-container">
+                                                <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
                                             </div>
-                                        </motion.div>
-                                    </motion.div>
+                                        </div>
+                                    </div>
 
 
 
@@ -868,8 +1020,10 @@ const DesktopAnimation = () => {
                                             className={'opacity-easily-switch'}
                                             style={{
                                                 // opacity: opacityEasilySwitchSection,
+                                                transition: 'opacity ease 0.3s',
+                                                opacity: 0,
                                                 position: "absolute",
-                                                top: "25%",
+                                                top: "calc(80vh + 5%)",
                                                 width: '100%',
                                                 paddingLeft: '8%',
                                             }}
@@ -878,8 +1032,8 @@ const DesktopAnimation = () => {
                                         </div>
                                     </div>
 
-                                    <motion.div style={{opacity: opacityZeroParametersText }}>
-                                        <motion.div style={{ opacity: opacityParametersTextSection, position: "absolute", top: '37%', left: "10%", zIndex: '100'}}>
+                                    <div style={{opacity: 1 }}>
+                                        <div className="paramaters-lighten-dropdown" style={{ opacity: 0, transition: 'opacity ease 0.3s', position: "absolute", top: '37%', left: "10%", zIndex: '100'}}>
 
                                             <div style={{maxWidth: '480px'}}>
                                                 <h3 className="sec-title">Parameters</h3>
@@ -890,13 +1044,12 @@ const DesktopAnimation = () => {
                                                     <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
                                                 </div>
                                             </div>
-                                        </motion.div>
-                                    </motion.div>
+                                        </div>
+                                    </div>
 
 
 
-                                    <motion.div style={{opacity: zeroOpacityGenerateByImageText}}>
-                                        <motion.div style={{ opacity: opacityGenerateByImageText, position: "absolute", top: '37%', left: "10%"}}>
+                                        <div className="opacity-generate-by-image" style={{ opacity: 0, transition: 'opacity ease 0.3s', position: "absolute", top: '37%', left: "10%"}}>
                                             <div style={{maxWidth: '480px'}}>
                                                 <h3 className="sec-title">Generate by image</h3>
                                                 <p className="sec-subtitle">You can upload your pictures or any picture from the Internet to
@@ -905,15 +1058,17 @@ const DesktopAnimation = () => {
                                                     <a href="" className="btnV2">Try Genery for <b>FREE</b> </a>
                                                 </div>
                                             </div>
-                                        </motion.div>
-                                    </motion.div>
+                                        </div>
 
 
 
 
 
-                                    <motion.div style={{
-                                        opacity: opacityFlexibilityTextSection,
+                                    <div
+                                      className="opacity-flexibility-section"
+                                      style={{
+                                        opacity: 0,
+                                        transition: 'opacity ease 0.3s',
                                         position: "absolute",
                                         top: 'calc(100% - 270px)',
                                         left: "5vw",
@@ -965,7 +1120,7 @@ const DesktopAnimation = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
 
 
@@ -973,7 +1128,7 @@ const DesktopAnimation = () => {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
 
 
