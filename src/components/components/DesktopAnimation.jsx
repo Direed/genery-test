@@ -644,7 +644,7 @@ const DesktopAnimation = () => {
         scrollIntoViewContainer?.scrollIntoView()
 
         setIsAnimated(false)
-        setTimeout(() => setIsAnimated(true), 700)
+        setTimeout(() => setIsAnimated(true), 1000)
         // var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
         //
         // if (st > refLastScrollTop.current) {
@@ -759,7 +759,7 @@ const DesktopAnimation = () => {
 
 
     return (
-        <section style={{ height: '715vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
+        <section style={{ height: '730vh', transform: 'translateY(-100vh)', marginBottom: '-100vh'}} className={"space-section"}>
             <div id={'first-animation'} style={{ height: '10vh', position: 'absolute' }} ref={refSpaceSection} />
             <div id={'finish-first-animation'} style={{ height: '50vh', top: '10vh', position: 'absolute' }} ref={refScaleSpaceSection} />
             <div id={'second-animation'} style={{ height: '50vh', top: '70vh', position: 'absolute' }} ref={refScaleGalleryGenerationSection} />
