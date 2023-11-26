@@ -85,13 +85,13 @@ const DesktopAnimation = () => {
             opacityAdvancedToolsSection.style.opacity = 0
         }
         if (value > -10) {
-            opacityGenerateByImageSection.style.opacity = 1
-            dropdownGenerateByImageSection.style.opacity = 1
+            opacityGenerateByImageSection.style.visibility = 'visible'
+            dropdownGenerateByImageSection.style.visibility = 'visible'
             headerContainerSection.style.opacity = 1
         } else {
             headerContainerSection.style.opacity = 0
-            dropdownGenerateByImageSection.style.opacity = 0
-            opacityGenerateByImageSection.style.opacity = 0
+            dropdownGenerateByImageSection.style.visibility = 'hidden'
+            opacityGenerateByImageSection.style.visibility = 'hidden'
         }
     })
     scaleFlexibility.on('change', (value) => {
@@ -158,23 +158,22 @@ const DesktopAnimation = () => {
         const opacityEasyControlSection = document.querySelector('.opacity-easy-control');
         const dropdownEasyControlSection = document.querySelector('.dropdown-easy-control');
 
-        if (value <= -75) {
+        if (value <= -50) {
             dropdownGenerateByImageSection.style.opacity = 1
         } else {
             dropdownGenerateByImageSection.style.opacity = 0
-
         }
 
         if (value <= -85) {
             opacityGenerateByImageSection.style.opacity = 1
         } else {
-            opacityEasyControlSection.style.opacity = 0
-            dropdownEasyControlSection.style.opacity = 0
+            opacityEasyControlSection.style.visibility = 'hidden'
+            dropdownEasyControlSection.style.visibility = 'hidden'
             opacityGenerateByImageSection.style.opacity = 0
         }
         if (value > -5) {
-            opacityEasyControlSection.style.opacity = 1
-            dropdownEasyControlSection.style.opacity = 1
+            opacityEasyControlSection.style.visibility = 'visible'
+            dropdownEasyControlSection.style.visibility = 'visible'
         }
     })
 
@@ -259,8 +258,6 @@ const DesktopAnimation = () => {
     })
 
     opacityEasilySwitch.on('change', (value) => {
-        console.log(value, 'value')
-
         const getTransformValue =(initial, final) => initial - (initial - final) * (-value) / 100
         const updatedOpacity = getTransformValue(-1, 1)
         // console.log(updatedOpacity, 'updatedOpacity')
